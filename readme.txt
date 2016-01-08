@@ -1,0 +1,4 @@
+- clone the repository to ~/home/user/.dotfiles
+- run ./makesymlinks to link the files into ~/home/user/
+- install pathogen vim plugin manager from https://github.com/tpope/vim-pathogen
+- install tmux plugin manager from https://github.com/tmux-plugins/tpm 
