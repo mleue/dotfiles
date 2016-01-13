@@ -1,31 +1,62 @@
-autocmd CursorMovedI * if pumvisible() == 0|pclose|endif
-autocmd InsertLeave * if pumvisible() == 0|pclose|endif
+" ----------------------------------------------------------------------------
+" start vundle plugin manager
+" ----------------------------------------------------------------------------
+set nocompatible              " be iMproved, required
+filetype off                  " required
 
-"Pluginmanager für Python starten
-execute pathogen#infect()
+"set the runtime path to include Vundle and initialize
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
 
-"Syntaxhighlighting an
-syntax on
+" let Vundle manage Vundle, required
+Plugin 'VundleVim/Vundle.vim'
+Plugin 'Valloric/YouCompleteMe'
 
-"Einrückung
-filetype plugin indent on
+" All of your Plugins must be added before the following line
+call vundle#end()            " required
+filetype plugin indent on    " required
 
-"Syntax Farben anpassen an dunklen Terminalhintergrund
+" ----------------------------------------------------------------------------
+" basic settings
+" ----------------------------------------------------------------------------
+syntax on			"syntax highlighting
+
+" ----------------------------------------------------------------------------
+" adjust color settings for dark terminal
+" ----------------------------------------------------------------------------
 set t_Co=256
 set background=dark
 highlight Pmenu ctermbg=100 gui=bold
 
-"Einrückung für Typescript, Javascript, mfiles, c++
+" ----------------------------------------------------------------------------
+" specific options for certain file types
+" (typescript,javascript,mfiles,cpp,markdown)
+" ----------------------------------------------------------------------------
 autocmd FileType typescript setlocal shiftwidth=2 tabstop=2 nu
 autocmd FileType javascript setlocal shiftwidth=2 tabstop=2 nu
 autocmd FileType matlab setlocal shiftwidth=2 tabstop=2 nu
-autocmd FileType cpp setlocal shiftwidth=2 tabstop=2 nu
+autocmd FileType cpp setlocal shiftwidth=4 tabstop=4 softtabstop=4 noexpandtab nu colorcolumn=80  
+let g:ycm_global_ycm_extra_conf = '~/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py'
 
-"Markdown Unterstützung
-autocmd BufNewFile,BufReadPost *.md set filetype=markdown
+"change coloring of max column for cpp files
+highlight ColorColumn ctermbg=darkgray
 
-"Ein paar Ideen für Klammervervollständigung
-":inoremap ( ()<Esc>i
+"markdown support
+autocmd BufNewFile,BufReadPost *.md set filetype=markdown 
+
+" ----------------------------------------------------------------------------
+" add paths to vim standard path (mainly for gf command)
+" ----------------------------------------------------------------------------
+let &path.="/src/include,/src/,"
+
+" ----------------------------------------------------------------------------
+" some scripts
+" ----------------------------------------------------------------------------
+
+"C-style scope brackets by typing {. in cpp files
+autocmd FileType cpp inoremap {. <CR>{<CR>}<Esc>O
+
+"Java-style scope brackets by typing {. in typescript files
 autocmd FileType typescript inoremap {. {<CR>}<Esc>O
 
 "timestamp command
