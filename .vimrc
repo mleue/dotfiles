@@ -11,6 +11,8 @@ call vundle#begin()
 " let Vundle manage Vundle, required
 Plugin 'VundleVim/Vundle.vim'
 Plugin 'Valloric/YouCompleteMe'
+Plugin 'tpope/vim-rails'
+Plugin 'tpope/vim-bundler'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -35,8 +37,14 @@ highlight Pmenu ctermbg=100 gui=bold
 autocmd FileType typescript setlocal shiftwidth=2 tabstop=2 nu
 autocmd FileType javascript setlocal shiftwidth=2 tabstop=2 nu
 autocmd FileType matlab setlocal shiftwidth=2 tabstop=2 nu
+autocmd FileType ruby setlocal shiftwidth=2 tabstop=2 nu
 autocmd FileType cpp setlocal shiftwidth=4 tabstop=4 softtabstop=4 noexpandtab nu colorcolumn=80  
+
+"C-style languages config file for YouCompleteMe
 let g:ycm_global_ycm_extra_conf = '~/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py'
+
+"macro to insert header guards into .h files on the press of F12
+nnoremap <F12> "%phr_I#ifndef __<Esc>gUwyypldwidefine <Esc>yypldwiendif //<Esc>O<Esc>
 
 "change coloring of max column for cpp files
 highlight ColorColumn ctermbg=darkgray
