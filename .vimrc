@@ -13,6 +13,7 @@ Plugin 'VundleVim/Vundle.vim'
 Plugin 'Valloric/YouCompleteMe'
 Plugin 'tpope/vim-rails'
 Plugin 'tpope/vim-bundler'
+Plugin 'rdnetto/YCM-Generator'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -22,6 +23,7 @@ filetype plugin indent on    " required
 " basic settings
 " ----------------------------------------------------------------------------
 syntax on			"syntax highlighting
+let g:ycm_show_diagnostics_ui = 0 "ycm highlighting?
 
 " ----------------------------------------------------------------------------
 " adjust color settings for dark terminal
