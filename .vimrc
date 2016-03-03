@@ -64,7 +64,7 @@ let &path.="/src/include,/src/,"
 " ----------------------------------------------------------------------------
 
 "C-style scope brackets by typing {. in cpp files
-autocmd FileType cpp inoremap {. <CR>{<CR>}<Esc>O
+autocmd FileType cpp inoremap {. {<CR>}<Esc>O
 
 "Java-style scope brackets by typing {. in typescript files
 autocmd FileType typescript inoremap {. {<CR>}<Esc>O
