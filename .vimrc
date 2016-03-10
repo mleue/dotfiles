@@ -68,6 +68,3 @@ autocmd FileType cpp inoremap {. {<CR>}<Esc>O
 
 "Java-style scope brackets by typing {. in typescript files
 autocmd FileType typescript inoremap {. {<CR>}<Esc>O
-
-"timestamp command
-command Timestamp :r! date "+\%Y-\%m-\%d \%H:\%M:\%S"
