@@ -40,7 +40,10 @@ autocmd FileType typescript setlocal shiftwidth=2 tabstop=2 nu
 autocmd FileType javascript setlocal shiftwidth=2 tabstop=2 nu
 autocmd FileType matlab setlocal shiftwidth=2 tabstop=2 nu
 autocmd FileType ruby setlocal shiftwidth=2 tabstop=2 nu
+autocmd FileType python setlocal shiftwidth=4 tabstop=4 nu expandtab softtabstop=4 smarttab
 autocmd FileType cpp setlocal shiftwidth=4 tabstop=4 softtabstop=4 noexpandtab nu colorcolumn=80  
+" automatic removal of trailing whitespaces when saving .py files
+autocmd BufWritePre *.py normal m`:%s/\s\+$//e ``
 
 "C-style languages config file for YouCompleteMe
 let g:ycm_global_ycm_extra_conf = '~/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py'
