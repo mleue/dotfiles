@@ -1,23 +1,17 @@
 " ----------------------------------------------------------------------------
-" start vundle plugin manager
+" start Plug plugin manager
 " ----------------------------------------------------------------------------
-set nocompatible              " be iMproved, required
-filetype off                  " required
-
-"set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
+call plug#begin('~/.vim/plugged')
 
 " let Vundle manage Vundle, required
-Plugin 'VundleVim/Vundle.vim'
-Plugin 'Valloric/YouCompleteMe'
-Plugin 'tpope/vim-rails'
-Plugin 'tpope/vim-bundler'
-Plugin 'rdnetto/YCM-Generator'
+Plug 'Valloric/YouCompleteMe'
+Plug 'rdnetto/YCM-Generator'
+Plug 'pangloss/vim-javascript'
+Plug 'mxw/vim-jsx'
+Plug 'scrooloose/syntastic'
 
-" All of your Plugins must be added before the following line
-call vundle#end()            " required
-filetype plugin indent on    " required
+" Add plugins to &runtimepath
+call plug#end()
 
 " ----------------------------------------------------------------------------
 " basic settings
@@ -43,6 +37,12 @@ autocmd FileType matlab setlocal shiftwidth=2 tabstop=2 nu
 autocmd FileType ruby setlocal shiftwidth=2 tabstop=2 nu
 autocmd FileType python setlocal shiftwidth=4 tabstop=4 nu expandtab softtabstop=4 smarttab
 autocmd FileType cpp setlocal shiftwidth=4 tabstop=4 softtabstop=4 noexpandtab nu colorcolumn=80  
+
+" allow JSX syntax checking in .js files
+let g:jsx_ext_required = 0 " Allow JSX in normal JS files
+" use eslint for syntastic javascript syntax checking
+let g:syntastic_javascript_checkers = ['eslint']
+
 " automatic removal of trailing whitespaces when saving .py files
 autocmd BufWritePre *.py normal m`:%s/\s\+$//e ``
 
