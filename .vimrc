@@ -4,11 +4,16 @@
 call plug#begin('~/.vim/plugged')
 
 " let Vundle manage Vundle, required
-Plug 'Valloric/YouCompleteMe'
-Plug 'rdnetto/YCM-Generator'
+"Plug 'Valloric/YouCompleteMe'
+"Plug 'rdnetto/YCM-Generator'
 Plug 'pangloss/vim-javascript'
 Plug 'mxw/vim-jsx'
 Plug 'scrooloose/syntastic'
+" snippets
+Plug 'MarcWeber/vim-addon-mw-utils'
+Plug 'tomtom/tlib_vim'
+Plug 'garbas/vim-snipmate'
+Plug 'honza/vim-snippets'
 
 " Add plugins to &runtimepath
 call plug#end()
@@ -18,6 +23,7 @@ call plug#end()
 " ----------------------------------------------------------------------------
 syntax on			"syntax highlighting
 let g:ycm_show_diagnostics_ui = 0 "ycm highlighting?
+set runtimepath+=~/.vim/plugged/vim-snippets/after
 
 " ----------------------------------------------------------------------------
 " adjust color settings for dark terminal
