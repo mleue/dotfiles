@@ -8,15 +8,20 @@ call plug#begin('~/.vim/plugged')
 "Plug 'rdnetto/YCM-Generator'
 Plug 'pangloss/vim-javascript'
 Plug 'mxw/vim-jsx'
-Plug 'scrooloose/syntastic'
+"Plug 'scrooloose/syntastic'
 " snippets
 Plug 'MarcWeber/vim-addon-mw-utils'
 Plug 'tomtom/tlib_vim'
 Plug 'garbas/vim-snipmate'
 Plug 'honza/vim-snippets'
+Plug 'python-mode/python-mode'
 
 " Add plugins to &runtimepath
 call plug#end()
+
+let g:pymode_lint_checkers = ['mccabe', 'pyflakes', 'pylint', 'pep8', 'pep257']
+let g:pymode_python = 'python3'
+let g:pymode_lint_ignore = 'E111,E114,W0311,C0111'
 
 " ----------------------------------------------------------------------------
 " basic settings
@@ -41,7 +46,7 @@ autocmd FileType javascript setlocal shiftwidth=2 tabstop=2 nu
 autocmd FileType html setlocal shiftwidth=2 tabstop=2 nu
 autocmd FileType matlab setlocal shiftwidth=2 tabstop=2 nu
 autocmd FileType ruby setlocal shiftwidth=2 tabstop=2 nu
-autocmd FileType python setlocal shiftwidth=4 tabstop=4 nu expandtab softtabstop=4 smarttab
+autocmd FileType python setlocal shiftwidth=2 tabstop=2 nu expandtab softtabstop=2 smarttab
 autocmd FileType cpp setlocal shiftwidth=4 tabstop=4 softtabstop=4 noexpandtab nu colorcolumn=80  
 
 " allow JSX syntax checking in .js files

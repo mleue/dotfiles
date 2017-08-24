@@ -115,3 +115,27 @@ shopt -s histappend                      # append to history, don't overwrite it
 
 # Save and reload the history after each command finishes
 export PROMPT_COMMAND="history -a; history -c; history -r; $PROMPT_COMMAND"
+
+### Added by the Heroku Toolbelt
+export PATH="/usr/local/heroku/bin:$PATH"
+
+# udacity git course, git workspace changes
+# Enable tab completion
+source ~/.git-completion.bash
+
+# colors!
+green="\[\033[0;32m\]"
+blue="\[\033[0;34m\]"
+purple="\[\033[0;35m\]"
+reset="\[\033[0m\]"
+
+# Change command prompt
+source ~/.git-prompt.sh
+export GIT_PS1_SHOWDIRTYSTATE=1
+# '\u' adds the name of the current user to the prompt
+# '\$(__git_ps1)' adds git-related stuff
+# '\W' adds the name of the current directory
+export PS1="$purple\u$green\$(__git_ps1)$blue \W $ $reset"
+
+# added by Anaconda3 4.2.0 installer
+export PATH="/home/michael/anaconda3/bin:$PATH"
