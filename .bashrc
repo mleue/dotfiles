@@ -101,7 +101,7 @@ if ! shopt -oq posix; then
     . /etc/bash_completion
   fi
 fi
-source /etc/bash_completion.d/password-store
+# source /etc/bash_completion.d/password-store
 export RECIPEPUPPY_HOSTPORT=www.recipepuppy.com:80
 export PATH="$HOME/.rbenv/bin:$PATH"
 eval "$(rbenv init -)"

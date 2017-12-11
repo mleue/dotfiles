@@ -21,7 +21,7 @@ call plug#end()
 
 let g:pymode_lint_checkers = ['mccabe', 'pyflakes', 'pylint', 'pep8', 'pep257']
 let g:pymode_python = 'python3'
-let g:pymode_lint_ignore = 'E111,E114,W0311,C0111'
+let g:pymode_lint_ignore = 'E111,E114,W0311,C0111,D100,D213,D203'
 
 " ----------------------------------------------------------------------------
 " basic settings
@@ -29,6 +29,7 @@ let g:pymode_lint_ignore = 'E111,E114,W0311,C0111'
 syntax on			"syntax highlighting
 let g:ycm_show_diagnostics_ui = 0 "ycm highlighting?
 set runtimepath+=~/.vim/plugged/vim-snippets/after
+set tabpagemax=100
 
 " ----------------------------------------------------------------------------
 " adjust color settings for dark terminal
