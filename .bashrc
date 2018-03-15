@@ -1,5 +1,11 @@
 #!/usr/bin/env bash
 
+# override snap command
+function snap() { echo "We don't like snaps. :)"; }
+
+# path to anaconda
+export PATH=~/anaconda3/bin:$PATH
+
 # Path to the bash it configuration
 export BASH_IT="/home/michael/.bash_it"
 

@@ -15,6 +15,7 @@ Plug 'tomtom/tlib_vim'
 Plug 'garbas/vim-snipmate'
 Plug 'honza/vim-snippets'
 Plug 'python-mode/python-mode'
+Plug 'posva/vim-vue'
 
 " Add plugins to &runtimepath
 call plug#end()
@@ -43,8 +44,9 @@ highlight Pmenu ctermbg=100 gui=bold
 " (typescript,javascript,mfiles,cpp,markdown)
 " ----------------------------------------------------------------------------
 autocmd FileType typescript setlocal shiftwidth=2 tabstop=2 nu
-autocmd FileType javascript setlocal shiftwidth=2 tabstop=2 nu
+autocmd FileType javascript setlocal shiftwidth=2 tabstop=2 expandtab smarttab nu
 autocmd FileType html setlocal shiftwidth=2 tabstop=2 nu
+autocmd FileType vue setlocal shiftwidth=2 tabstop=2 expandtab smarttab nu
 autocmd FileType matlab setlocal shiftwidth=2 tabstop=2 nu
 autocmd FileType ruby setlocal shiftwidth=2 tabstop=2 nu
 autocmd FileType python setlocal shiftwidth=2 tabstop=2 nu expandtab softtabstop=2 smarttab
