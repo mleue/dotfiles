@@ -31,6 +31,7 @@ syntax on			"syntax highlighting
 let g:ycm_show_diagnostics_ui = 0 "ycm highlighting?
 set runtimepath+=~/.vim/plugged/vim-snippets/after
 set tabpagemax=100
+set backupcopy=yes "so webpack actually sees a file-write event
 
 " ----------------------------------------------------------------------------
 " adjust color settings for dark terminal
