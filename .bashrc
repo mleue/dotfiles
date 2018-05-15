@@ -59,3 +59,23 @@ source "$BASH_IT"/bash_it.sh
 
 # vi mode in bash [ESC to enter]
 set -o vi
+
+# back search in CTRL+R using CTRL+S (in case you jumped over your target)
+stty -ixon
+
+# don't keep duplicate history entries
+export HISTCONTROL=ignoreboth:erasedups
+
+# piping to and from system clipboard
+alias pbcopy='xclip -selection clipboard'
+alias pbpaste='xclip -selection clipboard -o'
+
+# search for commands that start off with the same characters already typed
+if [ -t 1 ]
+then
+  bind '"\e[A":history-search-backward'
+  bind '"\e[B":history-search-forward'
+fi
+
+# always ask before deleting
+alias rm='rm -i'
