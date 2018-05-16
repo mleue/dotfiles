@@ -79,3 +79,6 @@ fi
 
 # always ask before deleting
 alias rm='rm -i'
+
+# cli octave is the standard
+alias octave='octave --no-gui'
