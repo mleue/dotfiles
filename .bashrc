@@ -82,3 +82,13 @@ alias rm='rm -i'
 
 # cli octave is the standard
 alias octave='octave --no-gui'
+
+# make locate work for encrypted home directories
+export LOCATE_PATH="$HOME/var/mlocate.db"
+
+# internet up/down on dell xps 13
+alias inet-down='sudo ifconfig wlp58s0 down'
+alias inet-up='sudo ifconfig wlp58s0 up'
+
+# history counts
+alias history-counts="history | awk '{print \$2}' | awk 'BEGIN {FS=\"|\"}{print \$1}' | sort | uniq -c | sort -nr | head"
