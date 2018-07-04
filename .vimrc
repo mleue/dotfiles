@@ -39,6 +39,10 @@ let g:ycm_show_diagnostics_ui = 0 "ycm highlighting?
 set runtimepath+=~/.vim/plugged/vim-snippets/after
 set tabpagemax=100
 set backupcopy=yes "so webpack actually sees a file-write event
+set number relativenumber "hybrid line numbers
+filetype plugin indent on 
+syntax on 
+set encoding=utf-8
 
 " ----------------------------------------------------------------------------
 " adjust color settings for dark terminal
