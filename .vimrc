@@ -10,24 +10,45 @@ endif
 
 call plug#begin('~/.vim/plugged')
 
-" let Vundle manage Vundle, required
-Plug 'python-mode/python-mode'
+" async :Make and :Dispatch for defined :compiler components
+Plug 'tpope/vim-dispatch'
+autocmd FileType python nnoremap <leader>pt :Dispatch py.test --tb=short -q<CR>
+
+" adds a 'py.test' compiler component (i.e. to set :makeprg and :errorformat
+" for pytest (e.g. to be used in :Dispatch))
+Plug '5long/pytest-vim-compiler'
+
+" visual indentations (to see that indentation levels are correct)
+" toggle using <leader>ig
+Plug 'nathanaelkane/vim-indent-guides'
+
+" display currently open buffers in the VIM status line
+Plug 'bling/vim-bufferline'
+
+" adds the 's' action to add/change/delete surroundings of text objects
+Plug 'tpope/vim-surround'
+
+"Plug 'w0rp/ale'
 
 " Add plugins to &runtimepath
 call plug#end()
 
 " Settings for the python-mode linter
-let g:pymode_lint_checkers = ['mccabe', 'pyflakes', 'pylint', 'pep8', 'pep257']
-let g:pymode_python = 'python3'
-let g:pymode_lint_ignore = 'E111,E114,W0311,C0111,D100,D213,D203'
+"let g:pymode_lint_checkers = ['mccabe', 'pyflakes', 'pylint', 'pep8', 'pep257']
+"let g:pymode_python = 'python3'
+"let g:pymode_lint_ignore = 'E111,E114,W0311,C0111,D100,D213,D203'
 
 " ----------------------------------------------------------------------------
 " basic settings
 " ----------------------------------------------------------------------------
 let mapleader = ","		"set the leader key to be ,
 filetype plugin indent on 	"filetype detection and standard settings per file
+syntax on 				"syntax highlighting
+set title				"terminal window name becomes name of vim file
+set shiftwidth=4		"a shift is 4 spaces wide
+set tabstop=4			"a tab is 4 spaces wide
+set autoindent			"always autoindent (i.e. next line indent is equal to current line indent)
 set nocompatible 		"don't pretend to be vi instead of vim
-syntax on 			"syntax highlighting
 set tabpagemax=100		"max number of tag pages that can be opened (default is 10 only)
 set number relativenumber 	"hybrid line numbers
 set encoding=utf-8		"work with utf-8 characters
@@ -37,12 +58,20 @@ set showmatch			"when you type a closing bracket, quickly jump to the correspond
 "set cursorline			"put a linemarker at where the cursor is
 set backupcopy=yes 		"so webpack actually sees a file-write event
 set undofile			"keep undo information even when you have closed a file in between
+set splitright			"make vertical splits to the right as a standard
+"set list
+"set listchars=tab:>.,trail:.,extends:#,nbsp:.
 " ----------------------------------------------------------------------------
 " search settings
 " ----------------------------------------------------------------------------
 "turn off vim regexping and instead use normal perl style regexing
 nnoremap / /\v
 vnoremap / /\v
+"use <C-p> and <C-n> in command mode to search the command history
+cnoremap <C-p> <Up>
+cnoremap <C-n> <Down>
+"%% expands to the directory of the currently active buffer
+cnoremap <expr> %% getcmdtype() == ':' ? expand('%:h').'/' : '%%'
 set ignorecase			"ignore case in search
 set smartcase			"this overrides ignorecase in case you use upper case letters in a search
 set hlsearch incsearch 		"highlight all search matches incrementally
@@ -89,10 +118,6 @@ inoremap <up> <nop>
 inoremap <down> <nop>
 inoremap <left> <nop>
 inoremap <right> <nop>
-"make j,k work correctly for wrapped lines in small terminal
-nnoremap j gj
-nnoremap k gk
-
 " ----------------------------------------------------------------------------
 " some leader commands
 " ----------------------------------------------------------------------------
