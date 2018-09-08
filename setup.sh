@@ -1,6 +1,6 @@
 #!/bin/bash
 ############################
-# distribute.sh
+# setup.sh
 # creates symlinks from the home directory to any desired dotfiles/dirs in ~/.dotfiles
 ############################
 
@@ -27,3 +27,11 @@ for file in $files; do
     echo "Creating symlink to $file in home directory."
     ln -s $dir/$file ~/$file
 done
+
+# Update bash-it if it's already installed or download it if it's not
+if [ -d $HOME/.bash_it ]; then
+  cd $HOME/.bash_it
+  git pull
+else
+  git clone --depth=1 https://github.com/Bash-it/bash-it.git $HOME/.bash_it
+fi
