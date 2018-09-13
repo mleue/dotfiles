@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # override snap command
-function snap() { echo "We don't like snaps. :)"; }
+# function snap() { echo "We don't like snaps. :)"; }
 
 # path to anaconda
 export PATH=~/anaconda3/bin:$PATH
@@ -95,3 +95,15 @@ export LOCATE_PATH="$HOME/var/mlocate.db"
 
 # history counts
 alias history-counts="history | awk '{print \$2}' | awk 'BEGIN {FS=\"|\"}{print \$1}' | sort | uniq -c | sort -nr | head"
+
+# gather history from all open terminals, don't silo it
+
+# Avoid duplicates
+export HISTCONTROL=ignoredups:erasedups  
+export HISTSIZE=100000
+export HISTFILESIZE=100000
+# When the shell exits, append to the history file instead of overwriting it
+shopt -s histappend
+
+# After each command, append to the history file and reread it
+export PROMPT_COMMAND="${PROMPT_COMMAND:+$PROMPT_COMMAND$'\n'}history -a; history -c; history -r"
