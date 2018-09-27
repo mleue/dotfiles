@@ -12,7 +12,7 @@ export BASH_IT_THEME='bobby'
 export THEME_SHOW_PYTHON=true
 
 # Path to the bash it configuration
-export BASH_IT="/home/michael/.bash_it"
+export BASH_IT=~/.bash_it
 
 # (Advanced): Change this to the name of your remote repo if you
 # cloned bash-it with a remote other than origin such as `bash-it`.
