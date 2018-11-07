@@ -86,7 +86,7 @@ alias octave='octave --no-gui'
 
 # lock the rfkill unblock command
 alias 'rfkill'='echo please use rfkillb/rfkillu to block/unblock'
-alias 'rfkillb'='/usr/sbin/rfkill block 0'
+alias 'rfkillb'='/usr/sbin/rfkill block wlan'
 alias 'rfkilll'='/usr/sbin/rfkill list'
 alias 'rfkillu'='comlock && /usr/sbin/rfkill unblock all'
 
@@ -107,3 +107,6 @@ shopt -s histappend
 
 # After each command, append to the history file and reread it
 export PROMPT_COMMAND="${PROMPT_COMMAND:+$PROMPT_COMMAND$'\n'}history -a; history -c; history -r"
+
+# color fix for ls
+alias ls='ls --color=auto'
