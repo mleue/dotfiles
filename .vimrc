@@ -63,6 +63,7 @@ set showmatch			"when you type a closing bracket, quickly jump to the correspond
 set backupcopy=yes 		"so webpack actually sees a file-write event
 set undofile			"keep undo information even when you have closed a file in between
 set splitright			"make vertical splits to the right as a standard
+set hidden				"allow switching of buffers even if one is not saved yet
 "set list
 "set listchars=tab:>.,trail:.,extends:#,nbsp:.
 " ----------------------------------------------------------------------------
