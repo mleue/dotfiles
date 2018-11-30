@@ -99,7 +99,7 @@ alias history-counts="history | awk '{print \$2}' | awk 'BEGIN {FS=\"|\"}{print 
 # gather history from all open terminals, don't silo it
 
 # Avoid duplicates
-export HISTCONTROL=ignoredups:erasedups  
+export HISTCONTROL=ignoredups:erasedups
 export HISTSIZE=100000
 export HISTFILESIZE=100000
 # When the shell exits, append to the history file instead of overwriting it

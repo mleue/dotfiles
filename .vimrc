@@ -25,6 +25,10 @@ Plug 'nathanaelkane/vim-indent-guides'
 " display currently open buffers in the VIM status line
 Plug 'bling/vim-bufferline'
 
+" status bar at the bottom of the vim screen, integrates e.g. with
+" vim-bufferline
+Plug 'vim-airline/vim-airline'
+
 " adds the 's' action to add/change/delete surroundings of text objects
 Plug 'tpope/vim-surround'
 
@@ -83,7 +87,7 @@ nnoremap <leader><space> :noh<CR>
 set t_Co=256				"use 256 colors
 set background=dark			"set a dark background
 "coloring of the popup menu
-highlight Pmenu ctermbg=100 gui=bold	
+highlight Pmenu ctermbg=100 gui=bold
 "change coloring of max column
 highlight ColorColumn ctermbg=darkgray
 " ----------------------------------------------------------------------------
@@ -97,7 +101,7 @@ autocmd FileType vue setlocal shiftwidth=2 tabstop=2 expandtab smarttab nu
 autocmd FileType matlab setlocal shiftwidth=2 tabstop=2 nu
 autocmd FileType ruby setlocal shiftwidth=2 tabstop=2 nu
 autocmd FileType python setlocal shiftwidth=2 tabstop=2 nu expandtab softtabstop=2 smarttab colorcolumn=80
-autocmd FileType cpp setlocal shiftwidth=4 tabstop=4 softtabstop=4 noexpandtab nu colorcolumn=80  
+autocmd FileType cpp setlocal shiftwidth=4 tabstop=4 softtabstop=4 noexpandtab nu colorcolumn=80
 
 
 " ----------------------------------------------------------------------------
