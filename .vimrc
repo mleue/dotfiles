@@ -32,10 +32,16 @@ Plug 'vim-airline/vim-airline'
 " adds the 's' action to add/change/delete surroundings of text objects
 Plug 'tpope/vim-surround'
 
-"Plug 'w0rp/ale'
+" linting/autocomplete
+Plug 'w0rp/ale'
 
 " Add plugins to &runtimepath
 call plug#end()
+
+let g:ale_linters = {
+\   'python': ['pyls', 'pyflake8'],
+\}
+let g:ale_completion_enabled = 1
 
 " Settings for the python-mode linter
 "let g:pymode_lint_checkers = ['mccabe', 'pyflakes', 'pylint', 'pep8', 'pep257']
