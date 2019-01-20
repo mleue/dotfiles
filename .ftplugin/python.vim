@@ -16,5 +16,3 @@ let b:ale_linters = {
 let b:ale_completion_enabled = 1
 " always keep the sign gutter open on the left
 let b:ale_sign_column_always = 1
-" show ale errors/warnings in vim-airline
-let b:airline#extensions#ale#enabled = 1

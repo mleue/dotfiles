@@ -29,3 +29,8 @@ Plug '5long/pytest-vim-compiler'
 
 " Add plugins to &runtimepath
 call plug#end()
+
+" plugin settings
+" ---------------
+" show ale errors/warnings in vim-airline
+let g:airline#extensions#ale#enabled = 1
