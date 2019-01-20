@@ -4,3 +4,17 @@ setlocal expandtab		" a tab is represented as the appropriate number of spaces (
 setlocal softtabstop=4
 setlocal smarttab
 setlocal colorcolumn=80 " insert a column at 80 spaces
+
+" leader command for vim-dispatch plugin to run pytest
+autocmd FileType python nnoremap <leader>pt :Dispatch py.test --tb=short -q<CR>
+
+" define the ale linters/fixers/options for python
+let b:ale_linters = {
+\   'python': ['pyls'],
+\}
+" enable autocomplete via pyls
+let b:ale_completion_enabled = 1
+" always keep the sign gutter open on the left
+let b:ale_sign_column_always = 1
+" show ale errors/warnings in vim-airline
+let b:airline#extensions#ale#enabled = 1
