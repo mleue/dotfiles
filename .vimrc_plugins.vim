@@ -34,3 +34,7 @@ call plug#end()
 " ---------------
 " show ale errors/warnings in vim-airline
 let g:airline#extensions#ale#enabled = 1
+" enable autocomplete
+let g:ale_completion_enabled = 1
+" always keep the sign gutter open on the left
+let g:ale_sign_column_always = 1

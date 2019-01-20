@@ -15,8 +15,7 @@ let b:ale_linters = {
 let b:ale_fixers = {
 \   'python': ['black'],
 \}
+" black autoformatter line-width limit set to 79
 let g:ale_python_black_options = '--line-length 79'
-" enable autocomplete via pyls
-let b:ale_completion_enabled = 1
-" always keep the sign gutter open on the left
-let b:ale_sign_column_always = 1
+" fix overeager autocomplete bug, see https://github.com/w0rp/ale/issues/1700
+setlocal completeopt+=noinsert
