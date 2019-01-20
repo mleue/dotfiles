@@ -1,31 +1,35 @@
 #!/bin/bash
-############################
-# setup.sh
-# creates symlinks from the home directory to any desired dotfiles/dirs in ~/.dotfiles
-############################
+# sets up the dotfiles and environments for vim, tmux and bash
 
-########## Variables
-dir=~/.dotfiles                    # dotfiles directory
-olddir=~/.dotfiles_old             # old dotfiles backup directory
-files=".vimrc .tmux.conf .bashrc .snippets"  # list of files/dirs to symlink in homedir
-##########
+# setting up variables
+dotfiles_dir=~/.dotfiles/             # dotfiles directory
+backup_dotfiles_dir=~/.dotfiles_old/  # old dotfiles backup directory
+dotfiles=".vimrc .tmux.conf .bashrc"  # list of files to symlink
 
-# create dotfiles_old in homedir
-echo "Creating $olddir for backup of any existing dotfiles in ~"
-mkdir -p $olddir
+# create backup dotfiles dir in homedir
+echo "Creating $backup_dotfiles_dir for backing up any existing dotfiles in ~"
+mkdir -p $backup_dotfiles_dir
 echo "...done"
 
 # change to the dotfiles directory
-echo "Changing to the $dir directory"
-cd $dir
+echo "Changing to the $dotfiles_dir directory"
+cd $dotfiles_dir
 echo "...done"
 
-# move any existing dotfiles in homedir to dotfiles_old directory, then create symlinks
-for file in $files; do
-    echo "Moving any existing dotfiles from ~ to $olddir"
-    mv ~/$file ~/.dotfiles_old/
+# for any dotfile, first back it up, then create a new symlink in ~ to the dotfile
+for file in $dotfiles; do
+	echo "Backing up the existing $file into $backup_dotfiles_dir."
+    mv ~/$file $backup_dotfiles_dir
     echo "Creating symlink to $file in home directory."
-    ln -s $dir/$file ~/$file
+    ln -s $dotfiles_dir$file ~/$file
+done
+
+# symlink ftplugin (filetype plugin) files for vim
+mkdir -p ~/.vim/ftplugin
+for file in $dotfiles_dir/.ftplugin/*; do
+	filename=$(basename "$file")
+	echo "Creating symlink to $filename in ftplugin directory."
+	ln -sf $dotfiles_dir/.ftplugin/$filename ~/.vim/ftplugin/$filename
 done
 
 # Update bash-it if it's already installed or download it if it's not
