@@ -5,6 +5,10 @@ setlocal softtabstop=4
 setlocal smarttab
 setlocal colorcolumn=80 " insert a column at 80 spaces
 
+" folding
+setlocal foldmethod=indent
+setlocal foldnestmax=2
+
 " leader command for vim-dispatch plugin to run pytest
 autocmd FileType python nnoremap <leader>pt :Dispatch py.test --tb=short -q<CR>
 
