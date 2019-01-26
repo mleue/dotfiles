@@ -23,3 +23,5 @@ let b:ale_fixers = {
 let g:ale_python_black_options = '--line-length 79'
 " fix overeager autocomplete bug, see https://github.com/w0rp/ale/issues/1700
 setlocal completeopt+=noinsert
+" leader command for :ALEFix Autoformatter
+nnoremap <leader>af :ALEFix<cr>
