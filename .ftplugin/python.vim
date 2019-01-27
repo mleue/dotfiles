@@ -25,4 +25,6 @@ let g:ale_python_black_options = '--line-length 79'
 setlocal completeopt+=noinsert
 " leader commands for ALE
 nnoremap <leader>af :ALEFix<cr>
-nnoremap <leader>ag :ALEGoToDefinition<cr>
+nnoremap <leader>ad :ALEGoToDefinition<cr>
+nnoremap <leader>asd :ALEGoToDefinitionInSplit<cr>
+nnoremap <leader>ar :ALEFindReferences<cr>
