@@ -30,6 +30,9 @@ Plug '5long/pytest-vim-compiler'
 " vim color scheme like visual studio code dark
 Plug 'tomasiser/vim-code-dark'
 
+" extended vim python syntax
+Plug 'vim-python/python-syntax'
+
 " Add plugins to &runtimepath
 call plug#end()
 
