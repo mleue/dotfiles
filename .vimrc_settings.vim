@@ -34,9 +34,10 @@ set hlsearch incsearch 		"highlight all search matches incrementally
 
 " adjust color settings for dark terminal
 " ----------------------------------------------------------------------------
-set t_Co=256				"use 256 colors
-set background=dark			"set a dark background
+" set t_Co=256				"use 256 colors
+" set background=dark			"set a dark background
+colorscheme codedark
 "coloring of the popup menu
-highlight Pmenu ctermbg=100 gui=bold
+" highlight Pmenu ctermbg=100 gui=bold
 "change coloring of max column
-highlight ColorColumn ctermbg=darkgray
+" highlight ColorColumn ctermbg=darkgray

@@ -27,6 +27,9 @@ Plug 'tpope/vim-dispatch'
 " for pytest (e.g. to be used in :Dispatch))
 Plug '5long/pytest-vim-compiler'
 
+" vim color scheme like visual studio code dark
+Plug 'tomasiser/vim-code-dark'
+
 " Add plugins to &runtimepath
 call plug#end()
 
