@@ -8,7 +8,7 @@ export PATH=~/anaconda3/bin:$PATH
 
 # Lock and Load a custom theme file
 # location /.bash_it/themes/
-export BASH_IT_THEME='bobby'
+export BASH_IT_THEME='bobby-python'
 export THEME_SHOW_PYTHON=true
 
 # Path to the bash it configuration
