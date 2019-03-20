@@ -17,6 +17,7 @@ set backupcopy=yes 		"so webpack actually sees a file-write event
 set undofile			"keep undo information even when you have closed a file in between
 set splitright			"make vertical splits to the right as a standard
 set hidden				"allow switching of buffers even if one is not saved yet
+set shell=/bin/bash\ -i "use interactive shell when running !commands (this means the shell will source ~/.bashrc on start and thus e.g. contain your defined aliases)
 
 " search settings
 " ----------------------------------------------------------------------------
