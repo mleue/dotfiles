@@ -111,3 +111,7 @@ export PROMPT_COMMAND="${PROMPT_COMMAND:+$PROMPT_COMMAND$'\n'}history -a; histor
 # ls, ignore vim undo files
 # color fix for ls
 alias ls='ls --color=auto -I ".*.un~"'
+
+# some more useful date commands
+alias DATE='date +%Y-%m-%d'
+alias DATE2='date +%Y-%m-%d %H:%M'
