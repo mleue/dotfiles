@@ -114,4 +114,4 @@ alias ls='ls --color=auto -I ".*.un~"'
 
 # some more useful date commands
 alias DATE='date +%Y-%m-%d'
-alias DATE2='date +%Y-%m-%d %H:%M'
+alias DATE2='date "+%Y-%m-%d %H:%M"'
