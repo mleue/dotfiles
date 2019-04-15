@@ -42,3 +42,14 @@ colorscheme codedark
 " highlight Pmenu ctermbg=100 gui=bold
 "change coloring of max column
 " highlight ColorColumn ctermbg=darkgray
+
+" settings for swap files
+" ----------------------------------------------------------------------------
+"
+" see https://stackoverflow.com/questions/4331776/change-vim-swap-backup-undo-file-name
+if isdirectory($HOME . '/.vimcache') == 0
+  :silent !mkdir -p ~/.vimcache >/dev/null 2>&1
+endif
+set backupdir=~/.vimcache
+set dir=~/.vimcache//
+set undodir=~/.vimcache
