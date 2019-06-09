@@ -118,3 +118,6 @@ alias DATE2='date "+%Y-%m-%d %H:%M"'
 
 # a standard-application file opener alias
 alias o='xdg-open'
+
+# enable "clear" via CTRL+L even in vi mode
+bind -m vi-insert "\C-l":clear-screen
