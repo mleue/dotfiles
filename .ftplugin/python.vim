@@ -28,6 +28,9 @@ nnoremap <leader>af :ALEFix<cr>
 nnoremap <leader>ad :ALEGoToDefinition<cr>
 nnoremap <leader>asd :ALEGoToDefinitionInSplit<cr>
 nnoremap <leader>ar :ALEFindReferences<cr>
+nnoremap <leader>ah :ALEHover<cr>
 
 " extended python syntax highlighting
 let g:python_highlight_all=1
+
+setlocal omnifunc=ale#completion#OmniFunc
