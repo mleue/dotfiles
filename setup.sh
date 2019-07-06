@@ -2,9 +2,11 @@
 # sets up the dotfiles and environments for vim, tmux and bash
 
 # setting up variables
-dotfiles_dir=~/.dotfiles/             # dotfiles directory
-backup_dotfiles_dir=~/.dotfiles_old/  # old dotfiles backup directory
-dotfiles=".vimrc .tmux.conf .bashrc"  # list of files to symlink
+dotfiles_dir=~/.dotfiles/             	# dotfiles directory
+backup_dotfiles_dir=~/.dotfiles_backup/ # dotfiles backup directory
+backup_config_dir=~/.config_backup/ 	# config dirs backup directory
+dotfiles=".vimrc .tmux.conf .bashrc"  	# list of files to symlink
+configdirs="sway waybar"  			  	# list of .config dirs to symlink
 
 # create backup dotfiles dir in homedir
 echo "Creating $backup_dotfiles_dir for backing up any existing dotfiles in ~"
@@ -22,6 +24,14 @@ for file in $dotfiles; do
     mv ~/$file $backup_dotfiles_dir
     echo "Creating symlink to $file in home directory."
     ln -s $dotfiles_dir$file ~/$file
+done
+
+# for any .config dir, first back it up, then symlink to it
+for dir in $configdirs; do
+	echo "Backing up the existing $dir into $backup_config_dir."
+    mv ~/.config/$dir $backup_dotfiles_dir
+    echo "Creating symlink to $dir in home .config directory."
+    ln -s $dotfiles_dir.config/$dir ~/.config/$dir
 done
 
 # symlink ftplugin (filetype plugin) files for vim

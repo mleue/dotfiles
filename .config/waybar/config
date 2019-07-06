@@ -1,0 +1,65 @@
+{
+    "layer": "top", // Waybar at top layer
+    "height": 20, // Waybar height (to be removed for auto height)
+    "modules-left": ["sway/workspaces", "sway/mode", "custom/media"],
+    "modules-center": [],
+    "modules-right": ["custom/cmus", "idle_inhibitor", "pulseaudio", "network", "backlight", "custom/alsa", "battery", "clock", "tray"],
+    "sway/mode": {
+        "format": "<span style=\"italic\">{}</span>"
+    },
+    "idle_inhibitor": {
+        "format": "{icon}",
+        "format-icons": {
+            "activated": "",
+            "deactivated": ""
+        }
+    },
+    "tray": {
+        // "icon-size": 21,
+        "spacing": 10
+    },
+    "clock": {
+        "format": "{:%Y-%m-%d | %H:%M}",
+        "tooltip-format": "{:%Y-%m-%d | %H:%M}",
+        "format-alt": "{:%Y-%m-%d}"
+    },
+    "backlight": {
+        // "device": "acpi_video1",
+        "format": "{percent}% {icon}",
+        "format-icons": ["", ""]
+    },
+    "battery": {
+        "states": {
+            // "good": 95,
+            "warning": 30,
+            "critical": 15
+        },
+        "format": "{capacity}% {icon}",
+        "format-charging": "{capacity}% ",
+        "format-plugged": "{capacity}% ",
+        "format-alt": "{time} {icon}",
+        // "format-good": "", // An empty format will hide the module
+        // "format-full": "",
+        "format-icons": ["", "", "", "", ""]
+    },
+    "network": {
+        // "interface": "wlp2*", // (Optional) To force the use of this interface
+        "format-ethernet": "{ifname}: {ipaddr}/{cidr} ",
+        "format-linked": "{ifname} (No IP) ",
+        "format-disconnected": "Disconnected ⚠",
+        "format-wifi": "{ifname}: {ipaddr}/{cidr} ({signalStrength}%)",
+        "format-alt": "{essid} ({signalStrength}%) "
+    },
+	"custom/cmus": {
+		"format": "{} ♪",
+		"interval": 1,
+		"exec": "cmus-remote -Q | grep -E 'title|artist' | awk '{$1=$2=\"\"; print$0}' | tac | tr '\n' ' '",
+		"exec-if": "cmus-remote -Q | grep \"status playing\"",
+		"on-click": "cmus-remote -C player-pause"
+	},
+	"custom/alsa": {
+		"format": "{}",
+		"exec": "amixer sget Master | awk -F'[][]' '/dB/ { if ($6 == \"on\") {text = $2 \"  \"; print text} else {text = $2 \"  \"; print text} }'",
+		"interval": 1
+	}
+}
