@@ -33,6 +33,15 @@ set ignorecase			"ignore case in search
 set smartcase			"this overrides ignorecase in case you use upper case letters in a search
 set hlsearch incsearch 		"highlight all search matches incrementally
 
+" clipboard settings (for wayland)
+" ----------------------------------------------------------------------------
+"  https://old.reddit.com/r/Fedora/comments/ax9p9t/vim_and_system_clipboard_under_wayland/
+"  https://github.com/thestinger/termite/issues/620
+"  xnoremap <c-c> y:!wl-copy <C-r>"<cr><cr>gv
+xnoremap "+y y:call system("wl-copy", @")<cr>
+nnoremap "+p :let @"=substitute(system("wl-paste --no-newline"), '<C-v><C-m>', '', 'g')<cr>p
+nnoremap "*p :let @"=substitute(system("wl-paste --no-newline --primary"), '<C-v><C-m>', '', 'g')<cr>p
+
 " adjust color settings for dark terminal
 " ----------------------------------------------------------------------------
 " set t_Co=256				"use 256 colors

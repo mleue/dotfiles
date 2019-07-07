@@ -121,3 +121,6 @@ alias o='xdg-open'
 
 # enable "clear" via CTRL+L even in vi mode
 bind -m vi-insert "\C-l":clear-screen
+
+# an alias command to copy pass passwords to wl-clipboard
+alias passc='head -n 1 | tr -t "\n" "\0" | wl-copy'
