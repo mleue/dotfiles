@@ -33,4 +33,5 @@ nnoremap <leader>ah :ALEHover<cr>
 " extended python syntax highlighting
 let g:python_highlight_all=1
 
+" trigger via <C-X><C-O>
 setlocal omnifunc=ale#completion#OmniFunc
