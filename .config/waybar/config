@@ -3,7 +3,7 @@
     "height": 22, // Waybar height (to be removed for auto height)
     "modules-left": ["sway/workspaces", "sway/mode", "custom/media"],
     "modules-center": [],
-    "modules-right": ["custom/cmus", "idle_inhibitor", "pulseaudio", "network", "backlight", "custom/alsa", "battery", "clock", "tray"],
+    "modules-right": ["custom/cmus", "idle_inhibitor", "pulseaudio", "network", "backlight", "custom/alsaplayback", "custom/alsacapture", "battery", "clock", "tray"],
     "sway/mode": {
         "format": "<span style=\"italic\">{}</span>"
     },
@@ -47,7 +47,7 @@
         "format-ethernet": "{ifname}: {ipaddr}/{cidr} ",
         "format-linked": "{ifname} (No IP) ",
         "format-disconnected": "Disconnected ⚠",
-        "format-wifi": "{ifname}: {ipaddr}/{cidr} ({signalStrength}%)",
+        "format-wifi": "{ifname}: {ipaddr}/{cidr} ({signalStrength}%) ",
         "format-alt": "{essid} ({signalStrength}%) "
     },
 	"custom/cmus": {
@@ -57,9 +57,14 @@
 		"exec-if": "cmus-remote -Q | grep \"status playing\"",
 		"on-click": "cmus-remote -C player-pause"
 	},
-	"custom/alsa": {
+	"custom/alsaplayback": {
 		"format": "{}",
 		"exec": "amixer sget Master | awk -F'[][]' '/dB/ { if ($6 == \"on\") {text = $2 \"  \"; print text} else {text = $2 \"  \"; print text} }'",
+		"interval": 1
+	},
+	"custom/alsacapture": {
+		"format": "{}",
+		"exec": "amixer sget Capture | awk -F'[][]' '/Front Left:/ { if ($6 == \"on\") {text = $2 \"  \"; print text} else {text = $2 \"  \"; print text} }'",
 		"interval": 1
 	}
 }

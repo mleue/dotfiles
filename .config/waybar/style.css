@@ -66,7 +66,7 @@ window#waybar.chromium {
 #backlight,
 #network,
 #pulseaudio,
-#custom-alsa,
+#custom-alsaplayback,
 #custom-cmus,
 #tray,
 #mode,
@@ -82,12 +82,12 @@ window#waybar.chromium {
 #battery {
     background-color: #ffffff;
     color: #000000;
-} */
+}
 
 #battery.charging {
     color: #ffffff;
     background-color: #26A65B;
-}
+} */
 
 @keyframes blink {
     to {
