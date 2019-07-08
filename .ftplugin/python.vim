@@ -29,6 +29,10 @@ nnoremap <leader>ad :ALEGoToDefinition<cr>
 nnoremap <leader>asd :ALEGoToDefinitionInSplit<cr>
 nnoremap <leader>ar :ALEFindReferences<cr>
 nnoremap <leader>ah :ALEHover<cr>
+" manual autocomplete command
+imap <C-Space> <Plug>(ale_complete)
+" inoremap <C-Space> <C-\><C-O>:ALEComplete<CR>
+imap <C-@> <C-Space>
 
 " extended python syntax highlighting
 let g:python_highlight_all=1
