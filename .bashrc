@@ -11,6 +11,9 @@ export THEME_SHOW_PYTHON=true
 # Load Bash It
 source "$BASH_IT"/bash_it.sh
 
+# set vim as standard editor
+export EDITOR='vim'
+
 # vi mode in bash [ESC to enter]
 set -o vi
 
