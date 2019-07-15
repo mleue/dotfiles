@@ -1,16 +1,5 @@
 #!/usr/bin/env bash
 
-# path to anaconda
-export PATH=~/anaconda3/bin:$PATH
-
-# Lock and Load a custom theme file
-# location /.bash_it/themes/
-export BASH_IT_THEME='bobby-python'
-export THEME_SHOW_PYTHON=true
-
-# Load Bash It
-source "$BASH_IT"/bash_it.sh
-
 # set vim as standard editor
 export EDITOR='vim'
 
@@ -87,3 +76,21 @@ fi
 unset __conda_setup
 # <<< conda initialize <<<
 
+
+# >>> bash-it initialize >>>
+# If not running interactively, don't do anything
+case $- in
+  *i*) ;;
+    *) return;;
+esac
+
+# Path to the bash it configuration
+export BASH_IT=~/.bash_it
+# Lock and Load a custom theme file
+# location /.bash_it/themes/
+export BASH_IT_THEME='bobby-python'
+export THEME_SHOW_PYTHON=true
+
+# Load Bash It
+source "$BASH_IT"/bash_it.sh
+# <<< bash-it initialize <<<
