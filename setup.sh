@@ -23,7 +23,7 @@ for file in $dotfiles; do
 	echo "Backing up the existing $file into $backup_dotfiles_dir."
     mv ~/$file $backup_dotfiles_dir
     echo "Creating symlink to $file in home directory."
-    ln -s $dotfiles_dir$file ~/$file
+    ln -sf -v $dotfiles_dir$file ~/$file
 done
 
 # for any .config dir, first back it up, then symlink to it
@@ -31,7 +31,7 @@ for dir in $configdirs; do
 	echo "Backing up the existing $dir into $backup_config_dir."
     mv ~/.config/$dir $backup_dotfiles_dir
     echo "Creating symlink to $dir in home .config directory."
-    ln -s $dotfiles_dir.config/$dir ~/.config/$dir
+    ln -snf -v $dotfiles_dir.config/$dir ~/.config/$dir
 done
 
 # symlink ftplugin (filetype plugin) files for vim
@@ -39,7 +39,7 @@ mkdir -p ~/.vim/ftplugin
 for file in $dotfiles_dir/.ftplugin/*; do
 	filename=$(basename "$file")
 	echo "Creating symlink to $filename in ftplugin directory."
-	ln -sf $dotfiles_dir/.ftplugin/$filename ~/.vim/ftplugin/$filename
+	ln -sf -v $dotfiles_dir/.ftplugin/$filename ~/.vim/ftplugin/$filename
 done
 
 # Update bash-it if it's already installed or download it if it's not
