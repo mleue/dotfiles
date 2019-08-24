@@ -1,5 +1,39 @@
 #!/usr/bin/env bash
 
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$('/home/michael/anaconda3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "/home/michael/anaconda3/etc/profile.d/conda.sh" ]; then
+        . "/home/michael/anaconda3/etc/profile.d/conda.sh"
+    else
+        export PATH="/home/michael/anaconda3/bin:$PATH"
+    fi
+fi
+unset __conda_setup
+# <<< conda initialize <<<
+
+
+# >>> bash-it initialize >>>
+# If not running interactively, don't do anything
+case $- in
+  *i*) ;;
+    *) return;;
+esac
+
+# Path to the bash it configuration
+export BASH_IT=~/.bash_it
+# Lock and Load a custom theme file
+# location /.bash_it/themes/
+export BASH_IT_THEME='bobby-python'
+export THEME_SHOW_PYTHON=true
+
+# Load Bash It
+source "$BASH_IT"/bash_it.sh
+# <<< bash-it initialize <<<
+
 # set vim as standard editor
 export EDITOR='vim'
 
@@ -46,7 +80,7 @@ export PROMPT_COMMAND="${PROMPT_COMMAND:+$PROMPT_COMMAND$'\n'}history -a; histor
 
 # ls, ignore vim undo files
 # color fix for ls
-alias ls='ls --color=auto'
+alias ls='ls --color=auto --ignore=__pycache__'
 
 # some more useful date commands
 alias DATE='date +%Y-%m-%d'
@@ -60,37 +94,3 @@ bind -m vi-insert "\C-l":clear-screen
 
 # an alias command to copy pass passwords to wl-clipboard
 alias passc='head -n 1 | tr -t "\n" "\0" | wl-copy'
-
-# >>> conda initialize >>>
-# !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('/home/michael/anaconda3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
-if [ $? -eq 0 ]; then
-    eval "$__conda_setup"
-else
-    if [ -f "/home/michael/anaconda3/etc/profile.d/conda.sh" ]; then
-        . "/home/michael/anaconda3/etc/profile.d/conda.sh"
-    else
-        export PATH="/home/michael/anaconda3/bin:$PATH"
-    fi
-fi
-unset __conda_setup
-# <<< conda initialize <<<
-
-
-# >>> bash-it initialize >>>
-# If not running interactively, don't do anything
-case $- in
-  *i*) ;;
-    *) return;;
-esac
-
-# Path to the bash it configuration
-export BASH_IT=~/.bash_it
-# Lock and Load a custom theme file
-# location /.bash_it/themes/
-export BASH_IT_THEME='bobby-python'
-export THEME_SHOW_PYTHON=true
-
-# Load Bash It
-source "$BASH_IT"/bash_it.sh
-# <<< bash-it initialize <<<
