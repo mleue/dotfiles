@@ -3,7 +3,7 @@
     "height": 22, // Waybar height (to be removed for auto height)
     "modules-left": ["sway/workspaces", "sway/mode", "custom/media"],
     "modules-center": [],
-    "modules-right": ["custom/cmus", "idle_inhibitor", "pulseaudio", "network", "backlight", "custom/alsaplayback", "custom/alsacapture", "battery", "clock", "tray"],
+    "modules-right": ["custom/cmus", "idle_inhibitor", "network", "backlight", "pulseaudio", "battery", "clock", "tray"],
     "sway/mode": {
         "format": "<span style=\"italic\">{}</span>"
     },
@@ -50,6 +50,22 @@
         "format-wifi": "{ifname}: {ipaddr}/{cidr} ({signalStrength}%) ",
         "format-alt": "{essid} ({signalStrength}%) "
     },
+	"pulseaudio": {
+		"format": "{volume}% {icon}",
+		"format-bluetooth": "{volume}% {icon}",
+		"format-muted": "",
+		"format-icons": {
+			"headphones": "",
+			"handsfree": "",
+			"headset": "",
+			"phone": "",
+			"portable": "",
+			"car": "",
+			"default": ["", ""]
+		},
+		"scroll-step": 1,
+		"on-click": "pavucontrol"
+	},
 	"custom/cmus": {
 		"format": "{} ♪",
 		"interval": 1,
