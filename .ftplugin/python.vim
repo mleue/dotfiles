@@ -19,6 +19,10 @@ let b:ale_linters = {
 let b:ale_fixers = {
 \   'python': ['black'],
 \}
+" autodetect pipenv and if so, use it
+let g:ale_python_auto_pipenv = 1
+" same for pyls
+let g:ale_python_pyls_auto_pipenv = 1
 " black autoformatter line-width limit set to 79
 let g:ale_python_black_options = '--line-length 79'
 " fix overeager autocomplete bug, see https://github.com/w0rp/ale/issues/1700
