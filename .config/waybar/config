@@ -3,6 +3,7 @@
     "height": 22, // Waybar height (to be removed for auto height)
     "modules-left": ["sway/workspaces", "sway/mode", "custom/media"],
     "modules-center": [],
+    // "modules-right": ["custom/cmus", "idle_inhibitor", "backlight", "pulseaudio", "battery", "tray"],
     "modules-right": ["custom/cmus", "idle_inhibitor", "network", "backlight", "pulseaudio", "battery", "clock", "tray"],
     "sway/mode": {
         "format": "<span style=\"italic\">{}</span>"
