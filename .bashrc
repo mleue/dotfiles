@@ -84,3 +84,5 @@ if command -v pyenv 1>/dev/null 2>&1; then
 fi
 
 export MOZ_ENABLE_WAYLAND=1
+export XDG_SESSION_TYPE=wayland
+export XDG_CURRENT_DESKTOP=sway
