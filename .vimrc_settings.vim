@@ -62,3 +62,6 @@ endif
 set backupdir=~/.vimcache
 set dir=~/.vimcache//
 set undodir=~/.vimcache
+
+" detect .h files to be c filetype and not c++
+autocmd BufRead,BufNewFile *.h,*.c set filetype=c
