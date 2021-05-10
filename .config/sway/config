@@ -184,6 +184,8 @@ input "1739:30383:DELL07E6:00_06CB:76AF_Touchpad" {
     bindsym XF86MonBrightnessUp exec light -A 5
     bindsym XF86AudioPlay exec obs-cli StartRecording
     bindsym XF86AudioNext exec obs-cli StopRecording
+    bindsym Print exec grim - | wl-copy -t image/png
+    bindsym Shift+Print exec grim -g "$(slurp)" - | wl-copy -t image/png
 
 #
 # Scratchpad:
