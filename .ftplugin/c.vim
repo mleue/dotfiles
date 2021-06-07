@@ -6,6 +6,9 @@ setlocal smarttab
 setlocal colorcolumn=80 " insert a column at 80 spaces
 
 
+let b:ale_linters = {
+\   'c': ['ccls'],
+\}
 let b:ale_fixers = {
 \   'c': ['clang-format'],
 \}
