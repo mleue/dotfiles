@@ -80,7 +80,7 @@ bind -m vi-insert "\C-l":clear-screen
 alias passc='head -n 1 | tr -t "\n" "\0" | wl-copy'
 
 if command -v pyenv 1>/dev/null 2>&1; then
-  eval "$(pyenv init -)"
+  eval "$(pyenv init --path)"
 fi
 
 export MOZ_ENABLE_WAYLAND=1
