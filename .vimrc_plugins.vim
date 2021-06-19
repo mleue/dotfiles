@@ -8,30 +8,22 @@ endif
 call plug#begin('~/.vim/plugged')
 
 " display currently open buffers in the VIM status line
-Plug 'bling/vim-bufferline'
-
-" status bar at the bottom of the vim screen, integrates e.g. with
-" vim-bufferline
-Plug 'vim-airline/vim-airline'
-
-" adds the 's' action to add/change/delete surroundings of text objects
-Plug 'tpope/vim-surround'
+" Plug 'bling/vim-bufferline'
 
 " language-server client for linting/autocomplete/go-to-definition/hover
 Plug 'w0rp/ale'
 
-" async :Make and :Dispatch for defined :compiler components
-Plug 'tpope/vim-dispatch'
+" fuzzy file/buffer/... finder
+Plug 'ctrlpvim/ctrlp.vim'
 
-" adds a 'py.test' compiler component (i.e. to set :makeprg and :errorformat
-" for pytest (e.g. to be used in :Dispatch))
-Plug '5long/pytest-vim-compiler'
+" adds the 's' action to add/change/delete surroundings of text objects
+Plug 'tpope/vim-surround'
 
 " vim color scheme like visual studio code dark
 Plug 'tomasiser/vim-code-dark'
 
-" extended vim python syntax
-Plug 'vim-python/python-syntax'
+" comment/uncomment in any language
+Plug 'tpope/vim-commentary'
 
 " Add plugins to &runtimepath
 call plug#end()

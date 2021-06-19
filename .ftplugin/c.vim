@@ -1,5 +1,6 @@
+setlocal list
 setlocal shiftwidth=2	" a shift is 2 spaces wide
-setlocal tabstop=2		" a tab is 4 spaces wide
+setlocal tabstop=2		" a tab is 2 spaces wide
 setlocal expandtab		" a tab is represented as the appropriate number of spaces (and not as \t)
 setlocal softtabstop=2
 setlocal smarttab
