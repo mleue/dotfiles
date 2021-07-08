@@ -3,8 +3,7 @@
     "height": 22, // Waybar height (to be removed for auto height)
     "modules-left": ["sway/workspaces", "sway/mode", "custom/media"],
     "modules-center": [],
-    // "modules-right": ["custom/cmus", "idle_inhibitor", "backlight", "pulseaudio", "battery", "tray"],
-    "modules-right": ["custom/cmus", "idle_inhibitor", "network", "backlight", "pulseaudio", "battery", "clock", "tray"],
+    "modules-right": ["idle_inhibitor", "network", "backlight", "pulseaudio", "battery", "clock", "tray"],
     "sway/mode": {
         "format": "<span style=\"italic\">{}</span>"
     },
@@ -20,7 +19,7 @@
         "spacing": 10
     },
     "clock": {
-        "format": "{:%Y-%m-%d | %H:%M}",
+        "format": "{:%H:%M}",
         "tooltip-format": "{:%Y-%m-%d | %H:%M}",
         "format-alt": "{:%Y-%m-%d}"
     },
@@ -48,8 +47,9 @@
         "format-ethernet": "{ifname}: {ipaddr}/{cidr} ",
         "format-linked": "{ifname} (No IP) ",
         "format-disconnected": "Disconnected ⚠",
-        "format-wifi": "{ifname}: {ipaddr}/{cidr} ({signalStrength}%) ",
-        "format-alt": "{essid} ({signalStrength}%) "
+        "format-wifi": "{signalStrength}% ",
+		"format-alt": "{ifname}: {ipaddr}/{cidr} ({signalStrength}%) "
+        // "format-alt": "{essid} ({signalStrength}%) "
     },
 	"pulseaudio": {
 		"format": "{volume}% {icon}",
@@ -66,13 +66,6 @@
 		},
 		"scroll-step": 1,
 		"on-click": "pavucontrol"
-	},
-	"custom/cmus": {
-		"format": "{} ♪",
-		"interval": 1,
-		"exec": "cmus-remote -Q | grep -E 'title|artist' | awk '{$1=$2=\"\"; print$0}' | tac | tr '\n' ' '",
-		"exec-if": "cmus-remote -Q | grep \"status playing\"",
-		"on-click": "cmus-remote -C player-pause"
 	},
 	"custom/alsaplayback": {
 		"format": "{}",
