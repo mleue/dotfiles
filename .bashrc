@@ -43,6 +43,7 @@ fi
 
 # always ask before deleting
 alias rm='rm -i'
+alias mv='mv -i'
 
 # cli octave is the standard
 alias octave='octave --no-gui'
@@ -72,6 +73,10 @@ alias DATE2='date "+%Y-%m-%d %H:%M"'
 
 # a standard-application file opener alias
 alias o='xdg-open'
+
+# quickly jot down tracking notes with a date attached
+alias "note"="echo `date -I` $1 >> ~/.notes.txt"
+alias "notes"="tail ~/.notes.txt"
 
 # enable "clear" via CTRL+L even in vi mode
 bind -m vi-insert "\C-l":clear-screen

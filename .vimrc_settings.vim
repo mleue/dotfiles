@@ -2,7 +2,13 @@
 " ----------------------------------------------------------------------------
 filetype plugin indent on 	"filetype detection and standard settings per file
 syntax on 				"syntax highlighting
-set title				"terminal window name becomes name of vim file
+if &term == "xterm-256color"
+	set title				"terminal window name becomes name of vim file
+endif
+if &term == "screen-256color"
+	set t_ts=k
+	set t_fs=^G
+endif
 set shiftwidth=4		"a shift is 4 spaces wide
 set tabstop=4			"a tab is 4 spaces wide
 set autoindent			"always autoindent (i.e. next line indent is equal to current line indent)
