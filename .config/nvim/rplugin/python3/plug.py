@@ -1,12 +1,12 @@
 import pynvim
 from etudes.etudes import (
     etude_prep,
-    etude_run,
     etude_test,
     etude_diff,
     etude_done,
     etudes_status,
 )
+from etudes.execute import etude_run
 from etudes.db import (
     get_next_etude,
     log_get_due,
@@ -62,7 +62,7 @@ class TestPlugin(object):
     def etude_run_test(self):
         self.nvim.command("wincmd w")  # move focus to side-window
         curr_etude = get_next_etude()
-        out = etude_run(curr_etude, test=True)
+        out = etude_run(curr_etude, run_goal_file=True)
         # write over side-window buffer
         self.nvim.request(
             "nvim_buf_set_lines", 0, 0, -1, True, out.splitlines()
@@ -111,10 +111,9 @@ class TestPlugin(object):
         path = etude_temp_path(next_etude)
         self.nvim.command(f"cd {str(path)}")  # change wd to next etude
         files = etude_temp_files(next_etude)
-        files_str = " ".join(str(f) for f in files)
-        self.nvim.command(f"edit {files_str}")  # open all etude files
-        # TODO make this independent of etude type
-        self.nvim.command(f"edit task.py")  # put focus on task file
+        for file in files:
+            self.nvim.command(f"edit {str(file)}")  # open each etude file
+        self.nvim.command(f"buffer task")  # put focus on task file
 
     @pynvim.autocmd(
         "BufEnter", pattern="*.py", eval='expand("<afile>")', sync=True
