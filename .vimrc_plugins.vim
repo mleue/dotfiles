@@ -14,7 +14,8 @@ call plug#begin('~/.vim/plugged')
 Plug 'w0rp/ale'
 
 " fuzzy file/buffer/... finder
-Plug 'ctrlpvim/ctrlp.vim'
+Plug 'junegunn/fzf.vim'
+Plug 'junegunn/fzf'
 
 " adds the 's' action to add/change/delete surroundings of text objects
 Plug 'tpope/vim-surround'
