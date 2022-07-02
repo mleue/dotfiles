@@ -21,7 +21,8 @@
     "clock": {
         "format": "{:%H:%M}",
         "tooltip-format": "{:%Y-%m-%d | %H:%M}",
-        "format-alt": "{:%Y-%m-%d}"
+        // "format-alt": "{:%Y-%m-%d}"
+        "format-alt": "⏲"
     },
     "backlight": {
         // "device": "acpi_video1",

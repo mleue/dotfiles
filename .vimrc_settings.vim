@@ -23,6 +23,7 @@ set splitright			"make vertical splits to the right as a standard
 set hidden				"allow switching of buffers even if one is not saved yet
 set shell=/bin/bash\ -i "use interactive shell when running !commands (this means the shell will source ~/.bashrc on start and thus e.g. contain your defined aliases)
 set grepprg=rg\ --vimgrep\ --hidden "use rg as the :grep program
+set laststatus=2		"always show filename bar, even if only one window
 
 " search settings
 " ----------------------------------------------------------------------------
