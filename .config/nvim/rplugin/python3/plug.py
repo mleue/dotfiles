@@ -14,6 +14,7 @@ from etudes.db import (
     get_etudes_due_done_today,
     get_etudes_new_done_today,
     get_etudes_new,
+    get_etude_info,
 )
 from etudes.files import get_workdir_path, get_workdir_files
 from playhouse.shortcuts import model_to_dict
@@ -123,6 +124,7 @@ class TestPlugin(object):
         for file in files:
             self.nvim.command(f"edit {str(file)}")  # open each etude file
         self.nvim.command("buffer main")  # put focus on main file
+        self.nvim.out_write(get_etude_info(next_etude.hash) + "\n")
 
     @pynvim.autocmd(
         "BufEnter", pattern="*.py", eval='expand("<afile>")', sync=True
