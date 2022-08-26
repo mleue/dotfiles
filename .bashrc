@@ -58,9 +58,9 @@ alias mv='mv -i'
 
 ### NOTES
 # quickly jot down log notes with a date attached
-alias "log"="echo `date -I` $1 >> ~/notes/log.txt"
-alias "logs"="tail ~/notes/log.txt"
-alias "kb"="cd ~/notes && vim todo.txt"
+alias "log"="echo `date -I` $1 >> ~/notes/log.md"
+alias "logs"="tail ~/notes/log.md"
+alias "kb"="cd ~/notes && vim todo.md"
 
 ### PYENV
 if command -v pyenv 1>/dev/null 2>&1; then

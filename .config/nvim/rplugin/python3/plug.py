@@ -17,6 +17,7 @@ from etudes.db import (
     get_etude_info,
 )
 from etudes.files import get_workdir_path, get_workdir_files
+from etudes.create import create_from_text
 from playhouse.shortcuts import model_to_dict
 
 
@@ -125,6 +126,19 @@ class TestPlugin(object):
             self.nvim.command(f"edit {str(file)}")  # open each etude file
         self.nvim.command("buffer main")  # put focus on main file
         self.nvim.out_write(get_etude_info(next_etude.hash) + "\n")
+
+    # TODO make it possible to provide cat/name arguments
+    @pynvim.command("EtudeCreate", nargs="*", range="")
+    def etude_create(self, args, range):
+        extension = args[0]
+        category = args[1]
+        subcategory = None if len(args) == 2 else args[2]
+        curr_lines = self.nvim.request("nvim_buf_get_lines", 0, 0, -1, True)
+        buffer_content = "\n".join(curr_lines)
+        etude_hash = create_from_text(
+            buffer_content, extension, category, subcategory
+        )
+        self.nvim.out_write(etude_hash + "\n")
 
     @pynvim.autocmd(
         "BufEnter", pattern="*.py", eval='expand("<afile>")', sync=True
