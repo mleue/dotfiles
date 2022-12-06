@@ -25,7 +25,7 @@ let g:ale_python_auto_pipenv = 1
 " same for pyls
 let g:ale_python_pyls_auto_pipenv = 1
 " black autoformatter line-width limit set to 79
-let g:ale_python_black_options = '--line-length 79'
+let g:ale_python_black_options = '--line-length 79 --preview'
 " fix overeager autocomplete bug, see https://github.com/w0rp/ale/issues/1700
 setlocal completeopt+=noinsert
 " leader commands for ALE

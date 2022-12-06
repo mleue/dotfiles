@@ -250,4 +250,6 @@ bar {
 	swaybar_command waybar
 }
 
+exec mozillavpn
+
 include /etc/sway/config.d/*

@@ -17,6 +17,9 @@ export THEME_SHOW_PYTHON=true
 source "$BASH_IT"/bash_it.sh
 # <<< bash-it initialize <<<
 
+
+PATH=$PATH:~/.cargo/bin
+
 ### GENERAL SETTINGS
 # set vim as standard editor
 export EDITOR='vim'

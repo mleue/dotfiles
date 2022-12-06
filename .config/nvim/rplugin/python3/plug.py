@@ -1,24 +1,16 @@
 import pynvim
-from etudes.functions import (
-    etude_prep,
-    etude_test,
-    etude_diff,
-    etude_done,
-    etude_run,
-    etudes_status,
-)
-from etudes.db import (
-    get_next_etude,
-    get_etudes_due_today,
-    get_etudes_due_tomorrow,
-    get_etudes_due_done_today,
-    get_etudes_new_done_today,
-    get_etudes_new,
-    get_etude_info,
-)
-from etudes.files import get_workdir_path, get_workdir_files
-from etudes.create import create_from_text
-from playhouse.shortcuts import model_to_dict
+from etudes.etudestore import EtudeStore
+from etudes.etude import Etude
+
+
+def create_status():
+    store = EtudeStore()
+    msg = (
+        f"Due done today: {len(store.get_due_done_today())}, New done"
+        f" today: {len(store.get_new_done_today())}, Due left:"
+        f" {len(store.get_due_today())}, New left: {len(store.get_new())}"
+    )
+    return msg
 
 
 @pynvim.plugin
@@ -26,23 +18,23 @@ class TestPlugin(object):
     def __init__(self, nvim):
         self.nvim = nvim
 
-    @pynvim.command("Test")
-    def test(self):
-        self.nvim.out_write(f"{etudes_status()}\n")
-
     @pynvim.command("EtudeLs", nargs="*")
     def etude_ls(self, args):
-        # TODO tabulate the results here
+        store = EtudeStore()
         if not args or args[0] == "due":
-            etudes = get_etudes_due_today()
+            etudes = store.get_due_today()
         elif args[0] == "due-tomorrow":
-            etudes = get_etudes_due_tomorrow()
+            etudes = store.get_due_tomorrow()
         elif args[0] == "done-today":
-            etudes = get_etudes_due_done_today() + get_etudes_new_done_today()
+            etudes = store.get_done_today()
         elif args[0] == "new":
-            etudes = get_etudes_new()
+            etudes = store.get_new()
         else:
-            etudes = get_etudes_due_today()
+            etudes = store.get_all()
+
+        for e in etudes:
+            if e.subcategory is None:
+                e.subcategory = ""
 
         self.nvim.command("wincmd w")  # move focus to side-window
         # write over side-window buffer
@@ -52,26 +44,25 @@ class TestPlugin(object):
             0,
             -1,
             True,
-            [str(model_to_dict(e)) for e in etudes],
+            [
+                f"{e.srs_item_id:<5}{e.category:<15}{e.subcategory:<15}"
+                for e in etudes
+            ],
         )
         self.nvim.command("wincmd w")  # move focus back to main-window
+
+    @pynvim.command("EtudeNext", nargs="*")
+    def etude_next(self, args):
+        store = EtudeStore()
+        srs_item_id = store.get_next().srs_item_id
+        self.nvim.out_write(f"{srs_item_id}\n")
 
     @pynvim.command("EtudeRun")
     def etude_run(self):
         self.nvim.command("wincmd w")  # move focus to side-window
-        curr_etude = get_next_etude()
-        out = etude_run(curr_etude.hash)
-        # write over side-window buffer
-        self.nvim.request(
-            "nvim_buf_set_lines", 0, 0, -1, True, out.splitlines()
-        )
-        self.nvim.command("wincmd w")  # move focus back to main-window
-
-    @pynvim.command("EtudeRunTest")
-    def etude_run_test(self):
-        self.nvim.command("wincmd w")  # move focus to side-window
-        curr_etude = get_next_etude()
-        out = etude_run(curr_etude.hash, goal=True)
+        store = EtudeStore()
+        e = store.get_started()
+        out = e.run()
         # write over side-window buffer
         self.nvim.request(
             "nvim_buf_set_lines", 0, 0, -1, True, out.splitlines()
@@ -82,8 +73,9 @@ class TestPlugin(object):
     def etude_test(self):
         # TODO debug "out" containing newline?
         self.nvim.command("wincmd w")  # move focus to side-window
-        curr_etude = get_next_etude()
-        out = etude_test(curr_etude.hash)
+        store = EtudeStore()
+        e = store.get_started()
+        out = e.test()
         # write over side-window buffer
         self.nvim.request(
             "nvim_buf_set_lines", 0, 0, -1, True, out.splitlines()
@@ -93,41 +85,55 @@ class TestPlugin(object):
     @pynvim.command("EtudeDiff")
     def etude_diff(self):
         self.nvim.command("wincmd w")  # move focus to side-window
-        curr_etude = get_next_etude()
-        out = etude_diff(curr_etude.hash)
+        store = EtudeStore()
+        e = store.get_started()
+        out = e.diff()
         # write over side-window buffer
         self.nvim.request(
             "nvim_buf_set_lines", 0, 0, -1, True, out.splitlines()
         )
         self.nvim.command("wincmd w")  # move focus back to main-window
 
-    @pynvim.command("EtudesStatus")
-    def etudes_status(self):
-        self.nvim.out_write(f"{etudes_status()}\n")
+    @pynvim.command("EtudesInfo")
+    def etudes_info(self):
+        self.nvim.out_write(f"{create_status()}\n")
 
     @pynvim.command("EtudeDone", nargs=1)
     def etude_done(self, args):
-        curr_etude = get_next_etude()
-        etude_done(curr_etude.hash, int(args[0]))
-        self.nvim.out_write(f"{etudes_status()}\n")
+        store = EtudeStore()
+        e = store.get_started()
+        perf_score = int(args[0])
+        store.done(e.srs_item_id, int(args[0]))
+        self.nvim.out_write(
+            f"(saved {e.srs_item_id}: {perf_score}) {create_status()}\n"
+        )
 
-    # TODO make it possible to provide cat/name arguments
-    @pynvim.command("EtudePrep", nargs="*", range="")
-    def etude_prep(self, args, range):
+    @pynvim.command("EtudeStart", nargs="*", range="")
+    def etude_start(self, args, range):
         self.nvim.command("%bdelete!")  # force delete all current buffers
         self.nvim.command("wincmd o")  # close all windows except current
         self.nvim.command("vsplit")  # new split
-        next_etude = get_next_etude()
-        etude_prep(next_etude.hash)
-        path = get_workdir_path(next_etude.hash) / "task"
-        self.nvim.command(f"cd {str(path)}")  # change wd to next etude
-        files = get_workdir_files(next_etude.hash)
-        for file in files:
-            self.nvim.command(f"edit {str(file)}")  # open each etude file
-        self.nvim.command("buffer main")  # put focus on main file
-        self.nvim.out_write(get_etude_info(next_etude.hash) + "\n")
+        store = EtudeStore()
+        if args:
+            srs_item_id = args[0]
+            e = store.get_by_srs_item_id(srs_item_id)
+        else:
+            e = store.get_next()
 
-    # TODO make it possible to provide cat/name arguments
+        store.start(e.srs_item_id)
+        self.nvim.command(f"cd {str(e.task_path)}")  # change wd to next etude
+        for file in e.task_path.iterdir():
+            # don't try to open object files or files without extension
+            if file.suffix not in {".o", ""}:
+                self.nvim.command(f"edit {str(file)}")  # open each etude file
+        # also open goal files for easy editing
+        for file in e.goal_path.iterdir():
+            # don't try to open object files or files without extension
+            if file.suffix not in {".o", ""}:
+                self.nvim.command(f"edit {str(file)}")  # open each etude file
+        self.nvim.command(f"buffer {e.task_file}")  # focus on task main file
+        self.nvim.out_write(f"{e.category}, {e.subcategory}\n")
+
     @pynvim.command("EtudeCreate", nargs="*", range="")
     def etude_create(self, args, range):
         extension = args[0]
@@ -135,10 +141,10 @@ class TestPlugin(object):
         subcategory = None if len(args) == 2 else args[2]
         curr_lines = self.nvim.request("nvim_buf_get_lines", 0, 0, -1, True)
         buffer_content = "\n".join(curr_lines)
-        etude_hash = create_from_text(
-            buffer_content, extension, category, subcategory
-        )
-        self.nvim.out_write(etude_hash + "\n")
+        e = Etude.from_text(buffer_content, extension, category, subcategory)
+        store = EtudeStore()
+        new_srs_item_id = store.insert(e)
+        self.nvim.out_write(f"{new_srs_item_id}\n")
 
     @pynvim.autocmd(
         "BufEnter", pattern="*.py", eval='expand("<afile>")', sync=True
