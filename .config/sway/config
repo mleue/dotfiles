@@ -169,6 +169,9 @@ input "1739:30383:DELL07E6:00_06CB:76AF_Touchpad" {
 
     # move focus to the parent container
     bindsym $mod+a focus parent
+
+    # gaps
+    gaps inner 10
 #
 # Special Keys:
 #
