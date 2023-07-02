@@ -12,10 +12,14 @@ py_version="$(python --version 2>&1 | awk 'NR==1{print $2;}')"
 pyenv_version="$(pyenv version-name)"
 source /usr/share/git/completion/git-prompt.sh
 # determine whether there are uncommited changes (red color) or not (green color)
-parse_git_fg() {
-	[[ $(git status -s 2> /dev/null) ]] && echo -e "${red}" || echo -e "${green}"
+get_git_status_color() {
+  if [[ -n $(git status --porcelain 2>/dev/null) ]]; then
+    echo "${red}"  # Red color escape code
+  else
+    echo "${green}"  # Green color escape code
+  fi
 }
-git_ps1="$(parse_git_fg)$(__git_ps1 ' (%s)')${reset_color}"
+git_ps1="$(get_git_status_color)$(__git_ps1 ' (%s)')${reset_color}"
 PS1="${name}:${location} [${pyenv_version}-${py_version}]${git_ps1} \$ "
 # set nvim as standard editor
 export EDITOR='nvim'
