@@ -9,7 +9,7 @@ purple="\[\e[0;35m\]"
 cyan="\[\e[0;36m\]"
 reset_color="\[\e[39m\]"
 
-# set PS1
+## set PS1
 name="${purple}\u@\h${reset_color}"
 location="${green}\w${reset_color}"
 py_version="$(python --version 2>&1 | awk 'NR==1{print $2;}')"
@@ -28,8 +28,11 @@ update_prompt() {
   git_ps1="$(get_git_status_color)$(__git_ps1 ' (%s)')${reset_color}"
   PS1="${python_info} ${name} ${location}${git_ps1}\n\$ "
 }
+# ensures that the prompt is updated after every command you issue
+# (e.g. so that it correctly updates after cd'ing into a git repo)
 export PROMPT_COMMAND="update_prompt"
 
+## SETTINGS
 # set nvim as standard editor
 export EDITOR='nvim'
 # vi mode in bash [ESC to enter]
@@ -75,12 +78,12 @@ if command -v pyenv 1>/dev/null 2>&1; then
   eval "$(pyenv init --path)"
 fi
 
-### WAYLAND
+## WAYLAND
 export MOZ_ENABLE_WAYLAND=1
 export XDG_SESSION_TYPE=wayland
 export XDG_CURRENT_DESKTOP=sway
 
-### FZF
+## FZF
 if type rg &> /dev/null; then
 	# fzf searches for candidate files using rg
 	export FZF_DEFAULT_COMMAND='rg --files'
