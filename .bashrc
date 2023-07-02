@@ -12,10 +12,6 @@ reset_color="\[\e[39m\]"
 ## set PS1
 name="${purple}\u@\h${reset_color}"
 location="${green}\w${reset_color}"
-py_version="$(python --version 2>&1 | awk 'NR==1{print $2;}')"
-pyenv_version="$(pyenv version-name)"
-python_info="${yellow}[${pyenv_version}-${py_version}]${reset_color}"
-source /usr/share/git/completion/git-prompt.sh
 # determine whether there are uncommited changes (red color) or not (green color)
 get_git_status_color() {
   if [[ -n $(git status --porcelain 2>/dev/null) ]]; then
@@ -24,9 +20,15 @@ get_git_status_color() {
     echo -e "${green}"  # Green color escape code
   fi
 }
+# dynamic PS1 update
 update_prompt() {
+  py_version="$(python --version 2>&1 | awk 'NR==1{print $2;}')"
+  pyenv_version="$(pyenv version-name)"
+  python_info="${yellow}[${pyenv_version}-${py_version}]${reset_color}"
+  source /usr/share/git/completion/git-prompt.sh
   git_ps1="$(get_git_status_color)$(__git_ps1 ' (%s)')${reset_color}"
-  PS1="${python_info} ${name} ${location}${git_ps1}\n\$ "
+  venv_name=$(basename "${VIRTUAL_ENV}")
+  PS1="(${venv_name}) ${python_info} ${name} ${location}${git_ps1}\n\$ "
 }
 # ensures that the prompt is updated after every command you issue
 # (e.g. so that it correctly updates after cd'ing into a git repo)
