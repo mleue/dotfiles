@@ -33,19 +33,3 @@ for dir in $configdirs; do
     echo "Creating symlink to $dir in home .config directory."
     ln -snf -v $dotfiles_dir.config/$dir ~/.config/$dir
 done
-
-# symlink ftplugin (filetype plugin) files for vim
-mkdir -p ~/.vim/ftplugin
-for file in $dotfiles_dir/.ftplugin/*; do
-	filename=$(basename "$file")
-	echo "Creating symlink to $filename in ftplugin directory."
-	ln -sf -v $dotfiles_dir/.ftplugin/$filename ~/.vim/ftplugin/$filename
-done
-
-# Update bash-it if it's already installed or download it if it's not
-if [ -d $HOME/.bash_it ]; then
-  cd $HOME/.bash_it
-  git pull
-else
-  git clone --depth=1 https://github.com/Bash-it/bash-it.git $HOME/.bash_it
-fi

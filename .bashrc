@@ -1,28 +1,24 @@
 #!/usr/bin/env bash
-
-# TODO: do we need bash-it?
-### >>> bash-it initialize >>>
-# If not running interactively, don't do anything
-case $- in
-  *i*) ;;
-    *) return;;
-esac
-# Path to the bash it configuration
-export BASH_IT=~/.bash_it
-# Lock and Load a custom theme file
-# location /.bash_it/themes/
-export BASH_IT_THEME='bobby-python'
-export THEME_SHOW_PYTHON=true
-# Load Bash It
-source "$BASH_IT"/bash_it.sh
-# <<< bash-it initialize <<<
-
-
-PATH=$PATH:~/.cargo/bin
-
-### GENERAL SETTINGS
-# set vim as standard editor
-export EDITOR='vim'
+## GENERAL SETTINGS
+# define some colors
+red="\[\e[0;31m\]"
+green="\[\e[0;32m\]"
+blue="\[\e[0;34m\]"
+reset_color="\[\e[39m\]"
+# set PS1
+name="\u@\h"
+location="${blue}\w${reset_color}"
+py_version="$(python --version 2>&1 | awk 'NR==1{print $2;}')"
+pyenv_version="$(pyenv version-name)"
+source /usr/share/git/completion/git-prompt.sh
+# determine whether there are uncommited changes (red color) or not (green color)
+parse_git_fg() {
+	[[ $(git status -s 2> /dev/null) ]] && echo -e "${red}" || echo -e "${green}"
+}
+git_ps1="$(parse_git_fg)$(__git_ps1 ' (%s)')${reset_color}"
+PS1="${name}:${location} [${pyenv_version}-${py_version}]${git_ps1} \$ "
+# set nvim as standard editor
+export EDITOR='nvim'
 # vi mode in bash [ESC to enter]
 set -o vi
 # make locate work for encrypted home directories
@@ -30,9 +26,8 @@ export LOCATE_PATH="$HOME/var/mlocate.db"
 # enable "clear" via CTRL+L even in vi mode
 bind -m vi-insert "\C-l":clear-screen
 
-### HISTORY
-# Avoid duplicates
-export HISTCONTROL=ignoredups:erasedups
+## HISTORY
+export HISTCONTROL=ignoredups:erasedups # erase duplicates
 export HISTSIZE=100000
 export HISTFILESIZE=100000
 # When the shell exits, append to the history file instead of overwriting it
@@ -41,29 +36,26 @@ shopt -s histappend
 export PROMPT_COMMAND="${PROMPT_COMMAND:+$PROMPT_COMMAND$'\n'}history -a; history -c; history -r"
 # back search in CTRL+R using CTRL+S (in case you jumped over your target)
 stty -ixon
-# don't keep duplicate history entries
-export HISTCONTROL=ignoreboth:erasedups
 # search for commands that start off with the same characters already typed
 if [ -t 1 ]
 then
   bind '"\e[A":history-search-backward'
   bind '"\e[B":history-search-forward'
 fi
+
+## ALIASES for standard commands
 # history counts
 alias history-counts="history | awk '{print \$2}' | awk 'BEGIN {FS=\"|\"}{print \$1}' | sort | uniq -c | sort -nr | head"
-
-### ALIASES for standard commands
-# ls, ignore vim undo files, color fix for ls
+# ls, ignore certain patterns,  color fix for ls
 alias ls='ls --color=auto --ignore=__pycache__'
 # always ask before deleting
 alias rm='rm -i'
 alias mv='mv -i'
-
-### NOTES
 # quickly jot down log notes with a date attached
 alias "log"="echo `date -I` $1 >> ~/notes/log.md"
 alias "logs"="tail ~/notes/log.md"
-alias "kb"="cd ~/notes && vim todo.md"
+# knowledgebase
+alias "kb"="cd ~/notes && nvim todo.md"
 
 ### PYENV
 if command -v pyenv 1>/dev/null 2>&1; then
