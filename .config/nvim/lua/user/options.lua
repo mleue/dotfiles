@@ -1,52 +1,52 @@
--- general behavior in the underlying system
-vim.opt.backup = false                          -- creates a backup file
-vim.opt.clipboard = "unnamedplus"               -- allows neovim to access the system clipboard
-vim.opt.fileencoding = "utf-8"                  -- the encoding written to a file
-vim.opt.mouse = "a"                             -- allow the mouse to be used in neovim
-vim.opt.swapfile = false                        -- creates a swapfile
-vim.opt.termguicolors = true                    -- set term gui colors (most terminals support this)
-vim.opt.undofile = true                         -- enable persistent undo
-vim.opt.writebackup = false                     -- if a file is being edited by another program (or was written to file while editing with another program), it is not allowed to be edited
-vim.opt.updatetime = 300                        -- faster completion (4000ms default)
+vim.g.mapleader = ","
 
--- spatial behavior
-vim.opt.autoindent = true                       -- copy indent from current line when starting a new line
-vim.opt.shiftwidth = 2                          -- the number of spaces inserted for each indentation
-vim.opt.tabstop = 2                             -- insert 2 spaces for a tab
-vim.opt.expandtab = true                        -- convert tabs to spaces
-vim.opt.cmdheight = 1                           -- more space in the neovim command line for displaying messages
-vim.opt.conceallevel = 0                        -- so that `` is visible in markdown files
-vim.opt.smartcase = true                        -- smart case
-vim.opt.smartindent = true                      -- make indenting smarter again
-vim.opt.splitbelow = true                       -- force all horizontal splits to go below current window
-vim.opt.splitright = true                       -- force all vertical splits to go to the right of current window
-vim.opt.number = true                           -- set numbered lines
-vim.opt.relativenumber = true                   -- relative numbers
-vim.opt.cursorline = true                       -- highlight the current line
-vim.opt.ruler = false                           -- hide the line and column number of the cursor position
-vim.opt.scrolloff = 3                           -- minimal number of screen lines to keep above and below the cursor
-vim.opt.wrap = false                            -- display lines as one long line
-vim.opt.sidescrolloff = 8                       -- minimal number of screen columns to keep to the left and right of the cursor if wrap is `false`
+local opt = vim.opt
 
--- menus
-vim.opt.completeopt = { "menuone", "noselect" } -- mostly just for cmp
-vim.opt.pumheight = 10                          -- pop up menu height
-vim.opt.showtabline = 0                         -- always show tabs
-vim.opt.laststatus = 2                          -- always display the status line
-vim.opt.signcolumn = "yes"                      -- always show the sign column, otherwise it would shift the text each time
+opt.autowrite = true -- Enable auto write
+opt.clipboard = "unnamedplus" -- Sync with system clipboard
+opt.completeopt = "menu,menuone,noselect"
+opt.conceallevel = 3 -- Hide * markup for bold and italic
+opt.confirm = true -- Confirm to save changes before exiting modified buffer
+opt.cursorline = true -- Enable highlighting of the current line
+opt.expandtab = true -- Use spaces instead of tabs
+opt.formatoptions = "jcroqlnt" -- tcqj
+opt.grepformat = "%f:%l:%c:%m"
+opt.grepprg = "rg --vimgrep"
+opt.ignorecase = true -- Ignore case
+opt.inccommand = "nosplit" -- preview incremental substitute
+opt.laststatus = 0
+opt.list = true -- Show some invisible characters (tabs...
+opt.mouse = "a" -- Enable mouse mode
+opt.number = true -- Print line number
+opt.pumblend = 10 -- Popup blend
+opt.pumheight = 10 -- Maximum number of entries in a popup
+opt.relativenumber = true -- Relative line numbers
+opt.scrolloff = 4 -- Lines of context
+opt.sessionoptions = { "buffers", "curdir", "tabpages", "winsize" }
+opt.shiftround = true -- Round indent
+opt.shiftwidth = 2 -- Size of an indent
+opt.shortmess:append { W = true, I = true, c = true }
+opt.sidescrolloff = 8 -- Columns of context
+opt.signcolumn = "yes" -- Always show the signcolumn, otherwise it would shift the text each time
+opt.smartcase = true -- Don't ignore case with capitals
+opt.smartindent = true -- Insert indents automatically
+opt.spelllang = { "en" }
+opt.splitbelow = true -- Put new windows below current
+opt.splitright = true -- Put new windows right of current
+opt.tabstop = 2 -- Number of spaces tabs count for
+opt.termguicolors = true -- True color support
+opt.timeoutlen = 300
+opt.undofile = true
+opt.undolevels = 10000
+opt.updatetime = 200 -- Save swap file and trigger CursorHold
+opt.wildmode = "longest:full,full" -- Command-line completion mode
+opt.winminwidth = 5 -- Minimum window width
+opt.wrap = false -- Disable line wrap
 
--- search behavior
-vim.opt.hlsearch = true                         -- highlight all matches on previous search pattern
-vim.opt.incsearch = true                        -- show search matches incrementally
-vim.opt.ignorecase = true                       -- ignore case in search patterns
-vim.opt.smartcase = true                        -- override the 'ignorecase' option if the search pattern contains upper case characters
-vim.opt.timeoutlen = 1000                       -- time to wait for a mapped sequence to complete (in milliseconds)
-vim.opt.showcmd = false                         -- hide (partial) command in the last line of the screen (for performance)
-vim.opt.guifont = "monospace:h17"               -- the font used in graphical neovim applications
+if vim.fn.has("nvim-0.9.0") == 1 then
+  opt.splitkeep = "screen"
+  opt.shortmess:append { C = true }
+end
 
--- other things
-vim.opt.shortmess:append "c"                    -- hide all the completion messages, e.g. "-- XXX completion (YYY)", "match 1 of 2", "The only match", "Pattern not found"
-vim.opt.whichwrap:append("<,>,[,],h,l")         -- keys allowed to move to the previous/next line when the beginning/end of line is reached
-vim.opt.iskeyword:append("-")                   -- treats words with `-` as single words
-vim.opt.formatoptions:remove({ "c", "r", "o" }) -- This is a sequence of letters which describes how automatic formatting is to be done
-vim.opt.linebreak = true
+-- Fix markdown indentation settings
+vim.g.markdown_recommended_style = 0
