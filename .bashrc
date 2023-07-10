@@ -22,8 +22,8 @@ get_git_status_color() {
 }
 # dynamic PS1 update
 update_prompt() {
-  py_version="$(python --version 2>&1 | awk 'NR==1{print $2;}')"
   pyenv_version="$(pyenv version-name)"
+  py_version="$(python --version 2>/dev/null | awk 'NR==1{print $2;}')"
   python_info="${yellow}[${pyenv_version}-${py_version}]${reset_color}"
   source /usr/share/git/completion/git-prompt.sh
   git_ps1="$(get_git_status_color)$(__git_ps1 ' (%s)')${reset_color}"
