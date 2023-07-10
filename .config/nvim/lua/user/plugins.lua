@@ -32,7 +32,15 @@ local lsp = require('lsp-zero').preset({})
 lsp.on_attach(function(client, bufnr)
   lsp.default_keymaps({buffer = bufnr})
 end)
+lsp.ensure_installed({
+  -- Replace these with whatever servers you want to install
+  'pyright',
+  'ruff_lsp',
+  'lua_ls',
+})
 lsp.setup()
+-- Set the F3 key to execute ':!black %' in normal mode for Python files
+vim.keymap.set('n', '<F3>', ':!black %<CR>', { noremap = true, silent = true })
 -- vim.keymap.set('n', 'gd', telescope.lsp_definitions, {desc = "Goto Definitions"})
 -- vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, {desc = "Goto Declaration"})
 -- vim.keymap.set('n', 'gr', telescope.lsp_references, {desc = "Goto References"})
@@ -41,9 +49,6 @@ lsp.setup()
 -- vim.keymap.set('n', '<leader>cl', '<cmd>LspInfo<cr>', {desc = "Lsp Info"})
 -- vim.keymap.set('n', '<leader>cf', vim.lsp.buf.format, {desc = "Format document"})
 -- vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, {desc = "Code action"})
--- Check if the current buffer is a Python file
--- Set the F3 key to execute ':!black %' in normal mode for Python files
-  vim.keymap.set('n', '<F3>', ':!black %<CR>', { noremap = true, silent = true })
 
 
 -- Copilot
