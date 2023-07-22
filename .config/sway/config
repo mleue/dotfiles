@@ -5,7 +5,9 @@
 # Read `man 5 sway` for a complete reference.
 
 ### Variables
-input * xkb_layout "us,us"
+input type:keyboard {
+  xkb_layout us,de
+}
 #
 # Logo key. Use Mod1 for Alt.
 set $mod Mod4
@@ -27,9 +29,11 @@ set $filemenu locate home media | rofi -threads 0 -width 90 -dmenu -i -p "locate
 # Default wallpaper (more resolutions are available in /usr/share/backgrounds/sway/)
 # output * bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
 # puts laptop monitor to the right of external one (for names run "swaymsg -t get_outputs")
-output DP-2 pos 0 0 res 2560x1440
-output eDP-1 pos 2560 0 res 1920x1080
-focus output DP-2
+# output DP-2 pos 0 0 res 2560x1440
+# output eDP-1 pos 2560 0 res 1920x1080
+# focus output DP-2
+output eDP-1 pos 0 0 res 1920x1080
+focus output eDP-1
 output * bg ~/images/arch.png fill
 #
 # Example configuration:

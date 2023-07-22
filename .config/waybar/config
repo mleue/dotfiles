@@ -3,7 +3,7 @@
     "height": 22, // Waybar height (to be removed for auto height)
     "modules-left": ["sway/workspaces", "sway/mode", "custom/media"],
     "modules-center": [],
-    "modules-right": ["idle_inhibitor", "network", "backlight", "pulseaudio", "battery", "clock", "tray"],
+    "modules-right": ["idle_inhibitor", "sway/language", "network", "backlight", "pulseaudio", "battery", "clock", "tray"],
     "sway/mode": {
         "format": "<span style=\"italic\">{}</span>"
     },
@@ -13,6 +13,10 @@
             "activated": "",
             "deactivated": ""
         }
+    },
+    "sway/language": {
+      "format": "{short} {variant}",
+      "on-click": "swaymsg 'input type:keyboard xkb_switch_layout next'",
     },
     "tray": {
         // "icon-size": 21,
