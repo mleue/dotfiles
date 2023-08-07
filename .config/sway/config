@@ -199,6 +199,7 @@ input "1739:30383:DELL07E6:00_06CB:76AF_Touchpad" {
     bindsym Print exec grim ~/Downloads/screen_$(date "+%F-%T").png
     bindsym Shift+Print exec grim -g "$(slurp)" ~/Downloads/screen_$(date "+%F-%T").png
     bindsym Ctrl+Shift+Print exec grim -g "$(slurp)" - | wl-copy -t image/png
+    bindsym Ctrl+Shift+F12 exec /usr/bin/grimrec /tmp/output.gif 10 5 && notify-send 'Recording completed'
 
 #
 # Scratchpad:
