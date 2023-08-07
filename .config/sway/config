@@ -6,7 +6,8 @@
 
 ### Variables
 input type:keyboard {
-  xkb_layout us,de
+  # xkb_layout us,de
+  xkb_layout us-german-umlaut
 }
 #
 # Logo key. Use Mod1 for Alt.
