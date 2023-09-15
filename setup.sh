@@ -4,7 +4,7 @@ dotfiles_dir=~/.dotfiles/
 dotfiles_dir_backup=~/.dotfiles.bak/
 mkdir -p $dotfiles_dir_backup
 # list of dotfiles/dirs to symlink
-dotfiles=".vimrc .tmux.conf .bashrc .gdbinit .bash_profile .config/sway .config/waybar .config/nvim .xkb"
+dotfiles=".vimrc .tmux.conf .bashrc .gdbinit .bash_profile .config/sway .config/waybar .config/nvim .config/swappy .xkb"
 
 # for any dotfile, first back it up, then create a new symlink in ~/ to it
 for file in $dotfiles; do
