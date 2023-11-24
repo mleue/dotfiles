@@ -22,11 +22,23 @@ get_git_status_color() {
 }
 # dynamic PS1 update
 update_prompt() {
-  pyenv_version="$(pyenv version-name)"
+  # Default values
+  pyenv_version="no pyenv"
+  git_ps1="no git-prompt.sh"
+
+  # Check if pyenv command is available
+  command -v pyenv >/dev/null 2>&1 && {
+      pyenv_version="$(pyenv version-name)"
+  }
+
+  # Check if git-prompt.sh exists
+  if [ -f "/usr/share/git/completion/git-prompt.sh" ]; then
+      source "/usr/share/git/completion/git-prompt.sh"
+      git_ps1="$(get_git_status_color)$(__git_ps1 ' (%s)')${reset_color}"
+  fi
+
   py_version="$(python --version 2>/dev/null | awk 'NR==1{print $2;}')"
   python_info="${yellow}[${pyenv_version}-${py_version}]${reset_color}"
-  source /usr/share/git/completion/git-prompt.sh
-  git_ps1="$(get_git_status_color)$(__git_ps1 ' (%s)')${reset_color}"
   venv_name=$(basename "${VIRTUAL_ENV}")
   PS1="(${venv_name}) ${python_info} ${name} ${location}${git_ps1}\n\$ "
 }
