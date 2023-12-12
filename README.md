@@ -1,2 +1,3 @@
-- clone the repository to ~/home/user/.dotfiles
-- run ./setup.sh to link the files into ~/home/user/
+# Overview
+## spurious BUG warnings on delete
+- see https://github.com/aspiers/stow/issues/65
