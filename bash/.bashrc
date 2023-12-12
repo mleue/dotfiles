@@ -49,12 +49,8 @@ export PROMPT_COMMAND="update_prompt"
 ## SETTINGS
 # set nvim as standard editor
 export EDITOR='nvim'
-# vi mode in bash [ESC to enter]
-set -o vi
 # make locate work for encrypted home directories
 export LOCATE_PATH="$HOME/var/mlocate.db"
-# enable "clear" via CTRL+L even in vi mode
-bind -m vi-insert "\C-l":clear-screen
 
 ## HISTORY
 export HISTCONTROL=ignoredups:erasedups # erase duplicates
@@ -74,18 +70,20 @@ then
 fi
 
 ## ALIASES for standard commands
-# history counts
-alias history-counts="history | awk '{print \$2}' | awk 'BEGIN {FS=\"|\"}{print \$1}' | sort | uniq -c | sort -nr | head"
 # ls, ignore certain patterns,  color fix for ls
 alias ls='ls --color=auto --ignore=__pycache__'
 # always ask before deleting
 alias rm='rm -i'
 alias mv='mv -i'
+
+## CUSTOM COMMANDS
+# knowledgebase
+alias "kb"="cd ~/notes && nvim todo.md"
+# history counts
+alias history-counts="history | awk '{print \$2}' | awk 'BEGIN {FS=\"|\"}{print \$1}' | sort | uniq -c | sort -nr | head"
 # quickly jot down log notes with a date attached
 alias "log"="echo `date -I` $1 >> ~/notes/log.md"
 alias "logs"="tail ~/notes/log.md"
-# knowledgebase
-alias "kb"="cd ~/notes && nvim todo.md"
 
 ### PYENV
 if command -v pyenv 1>/dev/null 2>&1; then
