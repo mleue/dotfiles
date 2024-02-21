@@ -102,3 +102,10 @@ if type rg &> /dev/null; then
 	# allow to select multiple entries via tab complete
 	export FZF_DEFAULT_OPTS='-m'
 fi
+
+## CUSTOM BASH FUNCTIONS
+if [ -f ~/.bash_functions ]; then
+   source ~/.bash_functions
+fi
+## CUSTOM SCRIPTS
+export PATH="$HOME/.local/bin:$PATH"
