@@ -1,0 +1,6 @@
+[user]
+    name = Michael Leue
+    email = domus@posteo.de
+[init]
+    # setting the global template dir for hooks etc
+    templateDir = ~/.git-templates

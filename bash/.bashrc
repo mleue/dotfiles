@@ -91,9 +91,9 @@ if command -v pyenv 1>/dev/null 2>&1; then
 fi
 
 ## WAYLAND
-export MOZ_ENABLE_WAYLAND=1
-export XDG_SESSION_TYPE=wayland
-export XDG_CURRENT_DESKTOP=sway
+# export MOZ_ENABLE_WAYLAND=1
+# export XDG_SESSION_TYPE=wayland
+# export XDG_CURRENT_DESKTOP=sway
 
 ## FZF
 if type rg &> /dev/null; then
@@ -109,3 +109,9 @@ if [ -f ~/.bash_functions ]; then
 fi
 ## CUSTOM SCRIPTS
 export PATH="$HOME/.local/bin:$PATH"
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/home/michael/sync_workenv/Downloads/google-cloud-sdk/path.bash.inc' ]; then . '/home/michael/sync_workenv/Downloads/google-cloud-sdk/path.bash.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/home/michael/sync_workenv/Downloads/google-cloud-sdk/completion.bash.inc' ]; then . '/home/michael/sync_workenv/Downloads/google-cloud-sdk/completion.bash.inc'; fi

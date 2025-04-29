@@ -30,6 +30,6 @@ return require('packer').startup(function(use)
     {'L3MON4D3/LuaSnip'},     -- Required
   }
 }
-  use {'akinsho/bufferline.nvim', tag = "v3.*", requires = 'nvim-tree/nvim-web-devicons'}
+  use {'akinsho/bufferline.nvim', tag = "v4.*", requires = 'nvim-tree/nvim-web-devicons'}
   use "https://github.com/github/copilot.vim"
 end)

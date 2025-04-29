@@ -1,0 +1,22 @@
+#!/bin/bash
+
+# Pre-commit hook to reject files containing specific patterns
+# Place this in ~/.git-templates/hooks/pre-commit
+
+# Patterns to check for (add more as needed, separated by |)
+PATTERNS="HACK|SECRET"
+
+# Check for the patterns in staged files
+FILES_WITH_PATTERNS=$(git diff --cached --name-only | xargs grep -l -E "$PATTERNS" 2>/dev/null)
+
+if [ -n "$FILES_WITH_PATTERNS" ]; then
+  echo "ERROR: Found forbidden patterns in the following files:"
+  echo "$FILES_WITH_PATTERNS" | while read file; do
+    echo "  $file:"
+    git diff --cached "$file" | grep -n -E "$PATTERNS" | sed 's/^/    /'
+  done
+  echo "Commit rejected. Please remove the patterns before committing."
+  exit 1
+fi
+
+exit 0
