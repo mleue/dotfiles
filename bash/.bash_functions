@@ -19,7 +19,8 @@ ytmusicdl() {
         echo "Download music from YouTube. Works both for single videos and playlists."
         return 0
     fi
-    yt-dlp -f bestaudio/best --extract-audio --audio-format mp3 -o "%(playlist_index&{} - |)s%(title)s.%(ext)s" "$1"
+    # yt-dlp -f bestaudio/best --extract-audio --audio-format mp3 -o "%(playlist_index&{} - |)s%(title)s.%(ext)s" "$1"
+    yt-dlp -f bestaudio/best --extract-audio --audio-format mp3 -o "%(playlist_index&{:02d} - |)s%(title)s.%(ext)s" "$1"
 }
 
 print_custom_functions() {
