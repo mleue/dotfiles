@@ -9,7 +9,7 @@ purple="\[\e[0;35m\]"
 cyan="\[\e[0;36m\]"
 reset_color="\[\e[39m\]"
 
-## set PS1
+## SET PS1
 name="${purple}\u@\h${reset_color}"
 location="${green}\w${reset_color}"
 # determine whether there are uncommited changes (red color) or not (green color)
@@ -47,21 +47,16 @@ update_prompt() {
 export PROMPT_COMMAND="update_prompt"
 
 ## SETTINGS
-# set nvim as standard editor
-export EDITOR='nvim'
-# make locate work for encrypted home directories
-export LOCATE_PATH="$HOME/var/mlocate.db"
+export EDITOR='nvim' # set nvim as default editor
+export LOCATE_PATH="$HOME/var/mlocate.db" # make locate work for encrypted home directories
 
 ## HISTORY
 export HISTCONTROL=ignoredups:erasedups # erase duplicates
 export HISTSIZE=100000
 export HISTFILESIZE=100000
-# When the shell exits, append to the history file instead of overwriting it
-shopt -s histappend
-# After each command, append to the history file and reread it (gather history from all open terminals)
-export PROMPT_COMMAND="${PROMPT_COMMAND:+$PROMPT_COMMAND$'\n'}history -a; history -c; history -r"
-# back search in CTRL+R using CTRL+S (in case you jumped over your target)
-stty -ixon
+shopt -s histappend # when the shell exits, append to the history file instead of overwriting it
+export PROMPT_COMMAND="${PROMPT_COMMAND:+$PROMPT_COMMAND$'\n'}history -a; history -c; history -r" # after each command, append to the history file and reread it (i.e. gather history from all open terminals at once)
+stty -ixon # back search in CTRL+R using CTRL+S (in case you jumped over your target)
 # search for commands that start off with the same characters already typed
 if [ -t 1 ]
 then
@@ -69,31 +64,10 @@ then
   bind '"\e[B":history-search-forward'
 fi
 
-## ALIASES for standard commands
-# ls, ignore certain patterns,  color fix for ls
-alias ls='ls --color=auto --ignore=__pycache__'
-# always ask before deleting
-alias rm='rm -i'
-alias mv='mv -i'
-
-## CUSTOM COMMANDS
-# knowledgebase
-alias "kb"="cd ~/notes && nvim todo.md"
-# history counts
-alias history-counts="history | awk '{print \$2}' | awk 'BEGIN {FS=\"|\"}{print \$1}' | sort | uniq -c | sort -nr | head"
-# quickly jot down log notes with a date attached
-alias "log"="echo `date -I` $1 >> ~/notes/log.md"
-alias "logs"="tail ~/notes/log.md"
-
 ### PYENV
 if command -v pyenv 1>/dev/null 2>&1; then
   eval "$(pyenv init --path)"
 fi
-
-## WAYLAND
-# export MOZ_ENABLE_WAYLAND=1
-# export XDG_SESSION_TYPE=wayland
-# export XDG_CURRENT_DESKTOP=sway
 
 ## FZF
 if type rg &> /dev/null; then
@@ -103,15 +77,9 @@ if type rg &> /dev/null; then
 	export FZF_DEFAULT_OPTS='-m'
 fi
 
-## CUSTOM BASH FUNCTIONS
+## IMPORT CUSTOM BASH FUNCTIONS AND ALIASES
 if [ -f ~/.bash_functions ]; then
    source ~/.bash_functions
 fi
-## CUSTOM SCRIPTS
+## IMPORT CUSTOM SCRIPTS
 export PATH="$HOME/.local/bin:$PATH"
-
-# The next line updates PATH for the Google Cloud SDK.
-if [ -f '/home/michael/sync_workenv/Downloads/google-cloud-sdk/path.bash.inc' ]; then . '/home/michael/sync_workenv/Downloads/google-cloud-sdk/path.bash.inc'; fi
-
-# The next line enables shell command completion for gcloud.
-if [ -f '/home/michael/sync_workenv/Downloads/google-cloud-sdk/completion.bash.inc' ]; then . '/home/michael/sync_workenv/Downloads/google-cloud-sdk/completion.bash.inc'; fi
