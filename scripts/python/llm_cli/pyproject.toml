@@ -1,0 +1,17 @@
+[build-system]
+requires = ["setuptools>=45", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "llm-cli"
+version = "1.0.0"
+description = "Quick LLM CLI tool for concise technical answers"
+requires-python = ">=3.8"
+dependencies = [
+    "anthropic>=0.18.0",
+    "openai>=1.0.0",
+    "python-dotenv>=0.20.0",
+]
+
+[project.scripts]
+llm = "llm_cli:main"

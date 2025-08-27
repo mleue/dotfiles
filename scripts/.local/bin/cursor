@@ -1,0 +1,3 @@
+#!/bin/bash
+# exec XDG_DATA_DIRS=/usr/share:/usr/local/share "$HOME/Downloads/Cursor.AppImage" "$@"
+exec "$HOME/Downloads/Cursor.AppImage" "$@"

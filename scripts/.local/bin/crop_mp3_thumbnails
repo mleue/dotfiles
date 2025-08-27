@@ -1,0 +1,165 @@
+#!/bin/bash
+
+# MP3 Thumbnail Cropper - Extract, crop to center square, and re-embed thumbnails
+# Usage: ./crop_mp3_thumbnails.sh file1.mp3 [file2.mp3 ...]
+#        ./crop_mp3_thumbnails.sh *.mp3
+#        find /music -name "*.mp3" | xargs ./crop_mp3_thumbnails.sh
+
+# Function to process a single MP3 file
+process_mp3() {
+    local mp3_file="$1"
+    local basename=$(basename "$mp3_file" .mp3)
+    local dirname=$(dirname "$mp3_file")
+    local temp_dir=$(mktemp -d)
+    local original_thumb="$temp_dir/original.jpg"
+    local cropped_thumb="$temp_dir/cropped.jpg"
+    local temp_mp3="$temp_dir/temp.mp3"
+    
+    echo "Processing: $mp3_file"
+    
+    # Check if file exists and is readable
+    if [[ ! -r "$mp3_file" ]]; then
+        echo "Error: Cannot read $mp3_file"
+        rm -rf "$temp_dir"
+        return 1
+    fi
+    
+    # Extract embedded thumbnail
+    if ! ffmpeg -i "$mp3_file" -an -vcodec copy "$original_thumb" -y 2>/dev/null; then
+        echo "Warning: No thumbnail found in $mp3_file, skipping..."
+        rm -rf "$temp_dir"
+        return 0
+    fi
+    
+    # Get original thumbnail dimensions
+    local dimensions=$(ffprobe -v quiet -select_streams v:0 -show_entries stream=width,height -of csv=s=x:p=0 "$original_thumb")
+    local width=$(echo $dimensions | cut -d'x' -f1)
+    local height=$(echo $dimensions | cut -d'x' -f2)
+    
+    echo "  Original thumbnail: ${width}x${height}"
+    
+    # Check if already square
+    if [[ "$width" -eq "$height" ]]; then
+        echo "  Thumbnail already square, skipping..."
+        rm -rf "$temp_dir"
+        return 0
+    fi
+    
+    # Crop to center square
+    echo "  Cropping to center square..."
+    if ! ffmpeg -i "$original_thumb" \
+                -vf "crop='if(gt(ih,iw),iw,ih)':'if(gt(iw,ih),ih,iw)'" \
+                -y "$cropped_thumb" 2>/dev/null; then
+        echo "Error: Failed to crop thumbnail for $mp3_file"
+        rm -rf "$temp_dir"
+        return 1
+    fi
+    
+    # Get cropped dimensions to verify
+    local new_dimensions=$(ffprobe -v quiet -select_streams v:0 -show_entries stream=width,height -of csv=s=x:p=0 "$cropped_thumb")
+    echo "  Cropped thumbnail: $new_dimensions"
+    
+    # Create new MP3 with cropped thumbnail
+    echo "  Re-embedding cropped thumbnail..."
+    if ! ffmpeg -i "$mp3_file" -i "$cropped_thumb" \
+                -map 0:0 -map 1:0 -c copy -id3v2_version 3 \
+                -metadata:s:v title="Album cover" \
+                -metadata:s:v comment="Cover (front)" \
+                -disposition:v:0 attached_pic \
+                -y "$temp_mp3" 2>/dev/null; then
+        echo "Error: Failed to embed cropped thumbnail for $mp3_file"
+        rm -rf "$temp_dir"
+        return 1
+    fi
+    
+    # Replace original file
+    if ! mv "$temp_mp3" "$mp3_file"; then
+        echo "Error: Failed to replace original file $mp3_file"
+        rm -rf "$temp_dir"
+        return 1
+    fi
+    
+    echo "  ✓ Successfully processed $mp3_file"
+    
+    # Cleanup
+    rm -rf "$temp_dir"
+    return 0
+}
+
+# Function to show usage
+show_usage() {
+    echo "Usage: $0 <mp3_file1> [mp3_file2] [mp3_file3] ..."
+    echo ""
+    echo "Examples:"
+    echo "  $0 song.mp3                    # Process single file"
+    echo "  $0 *.mp3                       # Process all MP3s in current directory"
+    echo "  $0 /path/to/music/*.mp3        # Process all MP3s in specific directory"
+    echo "  find /music -name '*.mp3' | xargs $0   # Process all MP3s recursively"
+    echo ""
+    echo "This script will:"
+    echo "  1. Extract embedded thumbnails from MP3 files"
+    echo "  2. Crop them to center squares"
+    echo "  3. Re-embed the cropped thumbnails"
+    echo "  4. Skip files that already have square thumbnails"
+    echo "  5. Skip files with no embedded thumbnails"
+}
+
+# Check if ffmpeg is available
+if ! command -v ffmpeg &> /dev/null; then
+    echo "Error: ffmpeg is required but not installed."
+    echo "Please install ffmpeg first."
+    exit 1
+fi
+
+if ! command -v ffprobe &> /dev/null; then
+    echo "Error: ffprobe is required but not installed."
+    echo "Please install ffprobe (usually comes with ffmpeg)."
+    exit 1
+fi
+
+# Check arguments
+if [[ $# -eq 0 ]]; then
+    show_usage
+    exit 1
+fi
+
+# Process each file
+total_files=$#
+processed=0
+skipped=0
+errors=0
+
+echo "Starting to process $total_files file(s)..."
+echo ""
+
+for mp3_file in "$@"; do
+    if [[ ! -f "$mp3_file" ]]; then
+        echo "Warning: $mp3_file is not a regular file, skipping..."
+        ((skipped++))
+        continue
+    fi
+    
+    if [[ "${mp3_file##*.}" != "mp3" ]]; then
+        echo "Warning: $mp3_file doesn't have .mp3 extension, skipping..."
+        ((skipped++))
+        continue
+    fi
+    
+    if process_mp3 "$mp3_file"; then
+        ((processed++))
+    else
+        ((errors++))
+    fi
+    echo ""
+done
+
+# Summary
+echo "Processing complete!"
+echo "  Total files: $total_files"
+echo "  Processed: $processed"
+echo "  Skipped: $skipped"
+echo "  Errors: $errors"
+
+if [[ $errors -gt 0 ]]; then
+    exit 1
+fi

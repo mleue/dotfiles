@@ -1,0 +1,153 @@
+#!/bin/bash
+
+# YouTube Music Downloader with Metadata
+# Downloads audio from YouTube with embedded metadata and thumbnails
+# Usage: ./ytmusicdl.sh <URL> [URL2] [URL3] ...
+
+set -e  # Exit on any error
+
+# Function to show usage
+show_usage() {
+    echo "YouTube Music Downloader"
+    echo "========================"
+    echo ""
+    echo "Usage: $0 <URL> [URL2] [URL3] ..."
+    echo ""
+    echo "Examples:"
+    echo "  $0 'https://www.youtube.com/watch?v=dQw4w9WgXcQ'"
+    echo "  $0 'https://www.youtube.com/playlist?list=PLxxxxxx'"
+    echo "  $0 'https://music.youtube.com/watch?v=xxxxx'"
+    echo ""
+    echo "Features:"
+    echo "  • Downloads highest quality audio as MP3"
+    echo "  • Embeds metadata (artist, album, track number)"
+    echo "  • Embeds album artwork as PNG thumbnails"
+    echo "  • Organizes files: Artist/Album/Track - Title.mp3"
+    echo "  • Maps uploader → artist, playlist title → album"
+    echo "  • Uses playlist index as track number"
+    echo ""
+    echo "Requirements:"
+    echo "  • yt-dlp (https://github.com/yt-dlp/yt-dlp)"
+    echo "  • ffmpeg (for audio conversion and metadata)"
+}
+
+# Function to download music from a URL
+download_music() {
+    local url="$1"
+    
+    echo "Downloading from: $url"
+    echo "==========================================="
+    
+    # Execute yt-dlp with all the specified options
+    yt-dlp \
+        -x \
+        --audio-format mp3 \
+        --audio-quality 0 \
+        --embed-metadata \
+        --embed-thumbnail \
+        --convert-thumbnails png \
+        --parse-metadata "uploader:%(meta_artist)s" \
+        --parse-metadata "playlist_title:%(meta_album)s" \
+        --parse-metadata "playlist_index:%(track_number)s" \
+        -o "%(uploader)s/%(playlist_title)s/%(playlist_index)s - %(title)s.%(ext)s" \
+        "$url"
+    
+    echo ""
+    echo "✓ Download completed for: $url"
+    echo ""
+}
+
+# Check if yt-dlp is installed
+if ! command -v yt-dlp &> /dev/null; then
+    echo "Error: yt-dlp is not installed or not in PATH"
+    echo ""
+    echo "To install yt-dlp:"
+    echo "  • pip install yt-dlp"
+    echo "  • Or download from: https://github.com/yt-dlp/yt-dlp"
+    echo ""
+    exit 1
+fi
+
+# Check if ffmpeg is installed
+if ! command -v ffmpeg &> /dev/null; then
+    echo "Warning: ffmpeg is not installed or not in PATH"
+    echo "This may cause issues with audio conversion and metadata embedding"
+    echo ""
+    echo "To install ffmpeg:"
+    echo "  • Linux: sudo apt install ffmpeg"
+    echo "  • macOS: brew install ffmpeg"
+    echo "  • Windows: Download from https://ffmpeg.org/"
+    echo ""
+    read -p "Continue anyway? (y/N): " -n 1 -r
+    echo
+    if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+        exit 1
+    fi
+fi
+
+# Check if URLs are provided
+if [[ $# -eq 0 ]]; then
+    show_usage
+    exit 1
+fi
+
+# Validate URLs (basic check)
+validate_url() {
+    local url="$1"
+    if [[ ! "$url" =~ ^https?:// ]]; then
+        echo "Warning: '$url' doesn't look like a valid URL"
+        return 1
+    fi
+    return 0
+}
+
+# Process each URL
+total_urls=$#
+successful=0
+failed=0
+
+echo "YouTube Music Downloader"
+echo "========================"
+echo "Processing $total_urls URL(s)..."
+echo ""
+
+for url in "$@"; do
+    # Validate URL format
+    if ! validate_url "$url"; then
+        echo "Skipping invalid URL: $url"
+        ((failed++))
+        continue
+    fi
+    
+    # Try to download
+    if download_music "$url"; then
+        ((successful++))
+    else
+        echo "✗ Failed to download: $url"
+        ((failed++))
+    fi
+done
+
+# Summary
+echo "Download Summary"
+echo "==============="
+echo "Total URLs: $total_urls"
+echo "Successful: $successful"
+echo "Failed: $failed"
+
+if [[ $failed -gt 0 ]]; then
+    echo ""
+    echo "Some downloads failed. Common issues:"
+    echo "  • Video is private, deleted, or geo-blocked"
+    echo "  • Network connectivity issues"
+    echo "  • Age-restricted content requiring authentication"
+    echo "  • Invalid or malformed URL"
+    echo ""
+    echo "Try running with -v flag for verbose output:"
+    echo "  yt-dlp -v [your options] <URL>"
+fi
+
+# Exit with error code if any downloads failed
+if [[ $failed -gt 0 ]]; then
+    exit 1
+fi
