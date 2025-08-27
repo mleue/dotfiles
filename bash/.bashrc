@@ -64,6 +64,17 @@ then
   bind '"\e[B":history-search-forward'
 fi
 
+## ALIASES for standard commands
+alias ls='ls --color=auto --ignore=__pycache__' # color and ignore __pycache__ directories
+alias rm='rm -i' # always prompt before removing
+alias mv='mv -i' # always prompt before moving onto something else
+
+## CUSTOM COMMANDS
+# knowledgebase
+alias "kb"="cd ~/notes && nvim todo.md"
+# history counts
+alias history-counts="history | awk '{print \$2}' | awk 'BEGIN {FS=\"|\"}{print \$1}' | sort | uniq -c | sort -nr | head"
+
 ### PYENV
 if command -v pyenv 1>/dev/null 2>&1; then
   eval "$(pyenv init --path)"
@@ -77,5 +88,9 @@ if type rg &> /dev/null; then
 	export FZF_DEFAULT_OPTS='-m'
 fi
 
+## IMPORT CUSTOM BASH FUNCTIONS AND ALIASES
+if [ -f ~/.bash_functions ]; then
+   source ~/.bash_functions
+fi
 ## IMPORT CUSTOM SCRIPTS
 export PATH="$HOME/.local/bin:$PATH"
