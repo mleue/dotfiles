@@ -77,9 +77,5 @@ if type rg &> /dev/null; then
 	export FZF_DEFAULT_OPTS='-m'
 fi
 
-## IMPORT CUSTOM BASH FUNCTIONS AND ALIASES
-if [ -f ~/.bash_functions ]; then
-   source ~/.bash_functions
-fi
 ## IMPORT CUSTOM SCRIPTS
 export PATH="$HOME/.local/bin:$PATH"

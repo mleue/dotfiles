@@ -5,3 +5,10 @@ all:
 	stow --verbose --target $(HOME) */
 delete:
 	stow --verbose --target $(HOME) --delete */
+pipx-install:
+	@echo "Installing pipx tools..."
+	pipx install ./scripts/python/llm_cli/ --force
+	@echo "Done!"
+pipx-clean:
+	@echo "Removing pipx tools..."
+	pipx uninstall llm_cli 2>/dev/null || true
