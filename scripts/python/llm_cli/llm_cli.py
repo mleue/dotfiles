@@ -40,13 +40,19 @@ def query_anthropic(question: str, model: str, system_prompt: str) -> str:
     client = anthropic.Anthropic()
     
     try:
-        response = client.messages.create(
+        collected_content = []
+        with client.messages.stream(
             model=model,
-            max_tokens=300,
             system=system_prompt,
+            max_tokens=32000,
             messages=[{"role": "user", "content": question}]
-        )
-        return response.content[0].text.strip()
+        ) as stream:
+            for text in stream.text_stream:
+                print(text, end='', flush=True)
+                collected_content.append(text)
+        
+        print()  # Add newline after streaming
+        return ''.join(collected_content).strip()
     except Exception as e:
         return f"Error querying Anthropic: {e}"
 
@@ -79,15 +85,24 @@ def query_openai(question: str, model: str, system_prompt: str) -> str:
     client = openai.OpenAI()
     
     try:
-        response = client.chat.completions.create(
+        collected_content = []
+        stream = client.chat.completions.create(
             model=model,
-            max_tokens=300,
             messages=[
                 {"role": "system", "content": system_prompt},
                 {"role": "user", "content": question}
-            ]
+            ],
+            stream=True
         )
-        return response.choices[0].message.content.strip()
+        
+        for chunk in stream:
+            if chunk.choices[0].delta.content is not None:
+                content = chunk.choices[0].delta.content
+                print(content, end='', flush=True)
+                collected_content.append(content)
+        
+        print()  # Add newline after streaming
+        return ''.join(collected_content).strip()
     except Exception as e:
         return f"Error querying OpenAI: {e}"
 
@@ -135,10 +150,7 @@ def save_output(question: str, response: str, model: str) -> None:
     
     try:
         with open(filename, 'w', encoding='utf-8') as f:
-            f.write(f"Model: {model}\n")
-            f.write(f"Timestamp: {datetime.now().isoformat()}\n")
-            f.write(f"Question:\n{question}\n\n")
-            f.write(f"Response:\n{response}\n")
+            f.write(f"{response}")
         print(f"Output saved to: {filename}")
     except Exception as e:
         print(f"Error saving output: {e}")
@@ -178,7 +190,7 @@ Use --list-models to see all available models
     
     parser.add_argument(
         '-m', '--model',
-        default='anthropic:claude-sonnet-4-20250514',
+        default='anthropic:claude-sonnet-4-0',
         help='Model in format provider:model_name (default: %(default)s)'
     )
     
@@ -221,7 +233,7 @@ Use --list-models to see all available models
             for model in openai_models:
                 print(f"  openai:{model}")
         
-        print(f"\nDefault model: anthropic:claude-sonnet-4-20250514")
+        print(f"\nDefault model: anthropic:claude-sonnet-4-0")
         return
     
     # Validate input method
@@ -247,8 +259,6 @@ Use --list-models to see all available models
         result = query_anthropic(question, model, system_prompt)
     else:
         result = query_openai(question, model, system_prompt)
-    
-    print(result)
     
     # Save output if requested
     if args.save:
