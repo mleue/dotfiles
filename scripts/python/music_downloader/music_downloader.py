@@ -260,6 +260,7 @@ class YouTubeMusicDownloader:
     def download_single_song(
         self,
         url: str,
+        album: Optional[str] = None,
         artist: Optional[str] = None,
         title: Optional[str] = None,
         crop_thumbnails: bool = False,
@@ -307,6 +308,8 @@ class YouTubeMusicDownloader:
                         metadata["artist"] = artist
                     if title:
                         metadata["title"] = title
+                    if album:
+                        metadata["album"] = album
 
                     self.post_process_metadata(pattern, metadata)
 
@@ -468,7 +471,7 @@ class YouTubeMusicDownloader:
                     url, album, artist, crop_thumbnails
                 )
             else:
-                success = self.download_single_song(url, artist, title, crop_thumbnails)
+                success = self.download_single_song(url, album, artist, title, crop_thumbnails)
 
             if success:
                 successful += 1
@@ -551,10 +554,6 @@ Thumbnail Cropping:
     )
 
     args = parser.parse_args()
-
-    # Validate mode-specific arguments
-    if args.mode == "single" and args.album:
-        print("Warning: --album is ignored for single song downloads")
 
     if (args.mode == "album" or args.mode == "playlist") and args.title:
         print("Warning: --title is ignored for album/playlist downloads")
